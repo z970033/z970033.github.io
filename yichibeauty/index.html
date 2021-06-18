@@ -3,6 +3,7 @@
 	:root {
 		--background:url(https://milkshake-production-looks.imgix.net/assets/146f0930b61b2f5defcb51af39024bd2.svg) repeat;
 		--color-group1:#FFFFFF;
+		--color-group2:#D4BFAF;
 	}
 	html {
 		width: 100%;
@@ -43,6 +44,33 @@
 	    align-items: center;
 	    flex-direction: column;
 	}
+
+	.imgDiv {
+		width: 100%;
+	    height: 100%;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: center;
+	    align-items: center;
+	    position: relative;
+	    margin-bottom: 30px;
+	}
+
+	img {
+		width: 150px;
+		height: 150px;
+	    max-width: 320px;
+	    border: 2px solid var(--color-group2);
+	    border-radius: 50%;
+	    margin: 0;
+	}
+	@media screen and (max-width: 640px){
+	    main {
+	    	width:100%;
+	    	height:100%;
+	    }
+	}
+
 </style>
 <html>
 <head>
@@ -54,7 +82,10 @@
 <body>
 	<div class="divFlex">
 		<main>
-			<div class="content" style="height: 900px;">
+			<div class="content">
+				<div class="imgDiv">
+					<img src="https://milkshake-production-user-images.imgix.net/d2be6589-ddcc-4f9d-90fb-c6038bcb3faa?auto=format&w=828">
+				</div>
 				<p>這邊可以放你想放的東西</p>	
 			</div>
 		</main>
