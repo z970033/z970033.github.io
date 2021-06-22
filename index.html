@@ -1,10 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?">
+	<script
+	  src="https://code.jquery.com/jquery-3.6.0.min.js"
+	  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	  crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<!-- <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script> -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/evil-icons@1.9.0/assets/evil-icons.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/evil-icons@1.9.0/assets/evil-icons.min.js"></script>
 	<title>test</title>
 </head>
 <body>
-	<p>rrrrrrr</p>
+	<div class="layout">
+	  <ul class="slider">
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=42">
+	    </li>
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=43">
+	    </li>
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=49">
+	    </li>
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=60">
+	    </li>
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=106">
+	    </li>
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=106">
+	    </li>
+	    <li>
+	      <img src="https://unsplash.it/600/300/?image=106">
+	    </li>
+	  </ul>
+	</div>
 </body>
+
+<script type="text/javascript">
+	// $(() => {
+
+	// })
+
+	$('.slider').slick({
+	  dots:true,
+	  // arrows:false,
+	  autoplay:true,
+	  prevArrow: '<a class="slick-prev" href="#"><i data-icon="ei-arrow-left" data-size="m"></i></a>',
+	  nextArrow: '<a class="slick-next" href="#"><i data-icon="ei-arrow-right" data-size="m"></i></a>',
+	  customPaging: function(slick,index) {
+        var targetImage = slick.$slides.eq(index).find('img').attr('src');
+        return '<img src=" ' + targetImage + ' "/>';
+      }
+	});
+</script>
+
+<style type="text/css">
+	html {
+		width: 100%;
+		height: 100%;
+	}
+
+	body {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+	}
+
+	ul {
+	  	margin:0;
+	  	padding: 0;
+	}
+
+	.layout {
+	  	width:50%;
+	  	margin:10px auto;
+	  	position: relative;
+	}
+
+	.layout a {
+	  	color: #666;
+	}
+
+	.slide {
+	  	display:none;
+	}
+
+	.slide li {
+	  	list-style: none;
+	}
+
+	.slide .slick-initialized {
+	  	display:block;
+	}
+
+	.slick-dots {
+	  	margin-top:5px;
+	  	margin-left: -5px;
+	  	margin-right: -5px;
+	  	display:flex;
+	  	justify-content: center;
+	}
+
+	.slick-dots li {
+		list-style: none;
+		display: inline-block;
+		max-width: 112px;
+		max-hegiht: 56px;
+		margin: 5px;
+	}
+
+	.slick-dots img {
+		opacity: 0.5;
+		width: 50%;
+		height: auto;
+    }
+
+    .slick-dots .slick-active img {
+    	opacity: 1;
+    }
+
+    .slick-prev {
+      	position: absolute;
+      	z-index: 99;
+      	top:40%;
+      	left: -50px;
+    }
+    .slick-next {
+      	position: absolute;
+      	z-index: 99;
+      	top:40%;
+      	right: -50px;
+    }
+
+    .slider .slick-slide img {
+    	width: 100%;
+    }
+
+    @media screen and (max-width: 640px){
+    	.layout {
+    		width: 100%;
+    	}
+        .slick-prev {
+        	left: 0px;
+        }
+
+        .slick-next {
+          	right: 0px;
+        }
+    }
+</style>
 </html>
