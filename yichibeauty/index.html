@@ -4,8 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?">
-	<script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
+	<!-- <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> -->
 	<!-- <script type="text/javascript" src="file:///Users/caiqingyuan/Desktop/z970033.github.io/js/jquery-3.6.0.min.js"></script> -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
 	<title>YICHI’S BEAUTY LIFE</title>
 </head>
 <body>
@@ -37,7 +39,7 @@
 				</div>
 
 				<div class="linkDiv">
-					<a href="https://shopee.tw/iou_yi_chi?smtt=0.0.9" class="bodyLink">17VARIOUS二手衣物</a>
+					<a href="https://shopee.tw/iou_yi_chi?smtt=0.0.9" class="bodyLink">17二手衣物在蝦皮</a>
 				</div>
 
 				<!-- <div class="linkDiv">
@@ -61,27 +63,17 @@
 	// document.ready
     $(() => {
     	// console.log(123);
-		var start = 1;
-		var end = 14;
-    	var init = rand(start, end);
+    	var init = 1;
     	setInterval(() => {
     		init += 1;
     		$("#mugShot").attr('src', `/image/mugShot${init}.jpg`);
 
-    		if(init == end)
-    			init = 1;
+    		if(init == 14)
+    			init = 0;
 
     	}, 3000);
     });
 
-	function rand (start, end) {
-		var r
-		n = end - start + 1 //求亂數的範圍 
-		r = Math.random() * n // 放大
-		r = Math.floor(r) // 去除小數點
-		r += start // 位移
-		return r
-	}
 </script>
 <style type="text/css">
 	:root {
