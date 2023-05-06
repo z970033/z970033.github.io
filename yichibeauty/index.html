@@ -61,16 +61,27 @@
 	// document.ready
     $(() => {
     	// console.log(123);
-    	var init = 0;
+		var start = 1;
+		var end = 14;
+    	var init = rand(start, end);
     	setInterval(() => {
     		init += 1;
     		$("#mugShot").attr('src', `/image/mugShot${init}.jpg`);
 
-    		if(init == 6)
-    			init = 0;
+    		if(init == end)
+    			init = 1;
 
     	}, 3000);
     });
+
+	function rand (start, end) {
+		var r
+		n = end - start + 1 //求亂數的範圍 
+		r = Math.random() * n // 放大
+		r = Math.floor(r) // 去除小數點
+		r += start // 位移
+		return r
+	}
 </script>
 <style type="text/css">
 	:root {
