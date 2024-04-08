@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?">
-	<!-- <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> -->
+	<script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
 	<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 	<title>真真</title>
 </head>
@@ -26,16 +26,25 @@
 
 				<div class="bodyDivFlex">
 					<div class="linkDiv">
-						<a href="https://myship.7-11.com.tw/general/detail/GM2403223338048" class="bodyLink">喜愛香氛的這裡呦生活需要點儀式感</a>
+						<a href="https://myship.7-11.com.tw/general/detail/GM2403223338048" class="bodyLink">
+							<i class="icon" style="background-image: url('https://z970033.github.io/image/jhen/icon1.jpg');"></i>
+							<div class="aMsg">
+								<span>喜愛香氛的這裡呦</span>
+								<span>生活需要點儀式感</span>
+							</div>
+						</a>
+					</div>
+					<div class="linkDiv">
+						<a href="https://www.tiktok.com/@jhen_1024?_t=8ktXQxVohQ9&_r=1" class="bodyLink">
+							<i class="icon" style="background-image: url('https://z970033.github.io/image/jhen/icon2.webp');"></i>
+							<div class="aMsg">
+								<span>抖音日常❤️</span>
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>
 		</main>
-	</div>
-
-	<div style="position: absolute; bottom: 0;right: 0; display: none;">
-		<!-- <p id="connection17" class="connection">聯絡17</p> -->
-		<button class="connection">聯絡17</button>
 	</div>
 </body>
 
@@ -61,6 +70,7 @@
 		--color-group1:#FFFFFF;
 		--color-group2:#D4BFAF;
 		--color-group3:#9f7e84;
+		--color-group4:#d0bbba;
 		--marginbottom: 30px;
 	}
 	html {
@@ -89,11 +99,18 @@
 
 	.bodyDivFlex {
 		display: flex;
-	    align-items: center;
-	    justify-content: center;
-	    width: 100%;
+		flex-direction: column;
+	    justify-content: flex-start;
+		align-items: center;
+	    width: 95%;
 		background-image: url(https://z970033.github.io/image/jhen/bk.jpg);
+		background-size: cover;
+    	background-position: center;
 	    /* margin-bottom: var(--marginbottom); */
+		padding: 20px 0px;
+		height: 390px;
+		border-radius: 20px;
+		overflow: auto;
 	}
 
 	main {
@@ -103,7 +120,8 @@
 	    height: 654px;
 	    overflow: auto;
 	    box-shadow: 0px 0px 50px rgb(0 0 0 / 15%);
-	    background-color: var(--color-group1);
+		background: linear-gradient(to bottom, var(--color-group3), #ffffff);
+		overflow: hidden;
 	}
 
 	.content {
@@ -111,7 +129,6 @@
 	    display: flex;
 	    align-items: center;
 	    flex-direction: column;
-		background-color: var(--color-group3);
 		text-align: center;
 	}
 
@@ -138,7 +155,7 @@
 
 	.text {
 		margin: 0;
-		color: var(--color-group2);
+		color: var(--color-group1);
 		font-weight: 500;
 		font-size: 12.5px;
 		letter-spacing: 1.5px;
@@ -150,19 +167,22 @@
 	}
 
 	.linkDiv {
-		width: 250px;
-	    margin-bottom: 28px;
+		width: 85%;
 	    border: 2px solid var(--color-group2);
 	    text-align: center;
+		background-color: var(--color-group4);
+		border-radius: 8px;
+		margin-bottom: 12px;
 	}
 
 	.bodyLink {
-		display: block;
-		padding: 12px;
+		display: flex;
+		padding: 5px;
 	    text-decoration: none;
-	    color: var(--color-group2);
+	    color: white;
 	    letter-spacing: 1.8px;
 	    text-transform: uppercase;
+		align-items: center;
 	}
 
 	.connection {
@@ -174,6 +194,20 @@
 
 	.imgDivText {
 		width: 25%;
+	}
+
+	.icon {
+		width: 50px; /* 设置图标宽度 */
+		height: 50px; /* 设置图标高度 */
+		/* 如果图标是矢量图标，也可以使用字体图标或者SVG等其他方式来表示 */
+		background-size: cover; /* 让背景图片铺满图标区域 */
+		background-position: center;
+	}
+
+	.aMsg {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 	}
 
 	@media screen and (max-width: 640px){
