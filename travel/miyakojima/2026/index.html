@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宮古島景點美食與行程指南</title>
+    <style>
+        :root {
+            --primary-color: #008080;
+            --secondary-color: #20b2aa;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+            --accent-border: #e0e0e0;
+            --badge-city: #2c3e50;
+            --badge-north: #16a085;
+            --badge-south: #d35400;
+            --badge-irabu: #2980b9;
+            --badge-day: #008080;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #008080, #20b2aa);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 128, 128, 0.2);
+        }
+
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Tab 切換按鈕樣式 */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid var(--primary-color);
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 128, 128, 0.3);
+        }
+
+        .tab-button:hover {
+            opacity: 0.9;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 區塊樣式 */
+        .area-section {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .area-title {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: white;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .area-city {
+            background-color: var(--badge-city);
+        }
+
+        .area-north {
+            background-color: var(--badge-north);
+        }
+
+        .area-south {
+            background-color: var(--badge-south);
+        }
+
+        .area-irabu {
+            background-color: var(--badge-irabu);
+        }
+
+        .area-day {
+            background-color: var(--badge-day);
+        }
+
+        .map-placeholder {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
+            border: 2px dashed #93c5fd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .map-placeholder h3 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .map-placeholder p {
+            color: #475569;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .spot-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .spot-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .spot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .spot-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .spot-num {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            font-size: 13px;
+            font-weight: bold;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .city-num {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .north-num {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .south-num {
+            background-color: #f97316;
+            color: white;
+        }
+
+        .irabu-num {
+            background-color: #06b6d4;
+            color: white;
+        }
+
+        .spot-desc {
+            font-size: 13px;
+            color: #d97706;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .spot-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #ef4444;
+            font-weight: 500;
+        }
+
+        /* 行程時間軸樣式 */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            padding-left: 15px;
+            border-left: 3px solid #20b2aa;
+            margin-top: 10px;
+        }
+
+        .timeline-item {
+            background: #ffffff;
+            border: 1px solid var(--accent-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 16px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #008080;
+            border: 2px solid white;
+        }
+
+        .timeline-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+
+        .tag-flight {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .tag-hotel {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        .tag-food {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .tag-shop {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .tag-spot {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .area-section {
+                padding: 15px;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .tab-button {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>宮古島景點美食與行程指南</h1>
+        <p>分區區域地圖 ‧ 精確編號定位 ‧ 每日行程路線</p>
+    </div>
+
+    <!-- Tab 切換選單 -->
+    <div class="tab-container">
+        <button class="tab-button active" onclick="switchTab('spots')">📍 分區美食景點</button>
+        <button class="tab-button" onclick="switchTab('itinerary')">🗓️ 8天7夜行程路線</button>
+    </div>
+
+    <!-- ==================== TAB 1: 分區美食景點 ==================== -->
+    <div id="spots" class="tab-content active">
+
+        <!-- 宮古島市區 -->
+        <div class="area-section">
+            <div class="area-title area-city">
+                <span>📍 宮古島市區 (Central City)</span>
+                <span style="font-size: 13px; font-weight: normal;">標號 1～24</span>
+            </div>
+
+            <div class="map-placeholder">
+                <h3>🗺️ 宮古島市區區域地圖（標號 1 ～ 24）</h3>
+                <p>此處已預留圖片位置。<br><code>&lt;img src="city_map.jpg" alt="宮古島市區地圖" /&gt;</code></p>
+            </div>
+
+            <div class="grid-container">
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">麺屋 サマー太陽</div>
+                            <div class="spot-num city-num">1</div>
+                        </div>
+                        <div class="spot-desc">鮮蝦拉麵</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:30–14:30 <span class="note">(六、三休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Restaurant Qui.Town</div>
+                            <div class="spot-num city-num">2</div>
+                        </div>
+                        <div class="spot-desc">義式料理</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:30–14:00, 17:30–21:00 <span
+                                class="note">(一休息)</span><br>日：08:00–14:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Tenkaippin-Miyakojima</div>
+                            <div class="spot-num city-num">3</div>
+                        </div>
+                        <div class="spot-desc">天下一品（拉麵、煎餃、炸雞）</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:00–22:00 <span class="note">(二休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Ryukyu Tonkatsu Mitsuya</div>
+                            <div class="spot-num city-num">4</div>
+                        </div>
+                        <div class="spot-desc">炸豬排</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:00–22:00 <span class="note">(五休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">鰓呼吸 宮古島店</div>
+                            <div class="spot-num city-num">5</div>
+                        </div>
+                        <div class="spot-desc">居酒屋</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 17:00–23:30</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">宮古島居酒屋 幸蔵</div>
+                            <div class="spot-num city-num">6</div>
+                        </div>
+                        <div class="spot-desc">居酒屋</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:30–14:00、17:30–22:30</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">琉球拉麵 MenyaYamato</div>
+                            <div class="spot-num city-num">7</div>
+                        </div>
+                        <div class="spot-desc">拉麵</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 18:00–03:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">宮古牛焼肉 玉城</div>
+                            <div class="spot-num city-num">8</div>
+                        </div>
+                        <div class="spot-desc">燒肉</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 17:00–23:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">小さな幸せ Sakuri</div>
+                            <div class="spot-num city-num">9</div>
+                        </div>
+                        <div class="spot-desc">小可頌、巴斯克</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–15:00 <span class="note">(一、五休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">空見茶屋</div>
+                            <div class="spot-num city-num">10</div>
+                        </div>
+                        <div class="spot-desc">茶屋</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:00–18:00 <span class="note">(二休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Burwood Donuts</div>
+                            <div class="spot-num city-num">11</div>
+                        </div>
+                        <div class="spot-desc">甜甜圈</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:30–17:00 <span class="note">(二、三休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Moja's Bakery モジャのパン屋</div>
+                            <div class="spot-num city-num">12</div>
+                        </div>
+                        <div class="spot-desc">麵包</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–15:00 <span
+                                class="note">(一、日休息)</span><br>六：10:00–12:30</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Monte Doll Banana Cake Shop</div>
+                            <div class="spot-num city-num">13</div>
+                        </div>
+                        <div class="spot-desc">香蕉蛋糕、牛奶、伴手禮</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:30–20:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Kujira Diner</div>
+                            <div class="spot-num city-num">14</div>
+                        </div>
+                        <div class="spot-desc">飯糰</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 07:30–13:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">NINGIN COFFEE エンギン珈琲</div>
+                            <div class="spot-num city-num">15</div>
+                        </div>
+                        <div class="spot-desc">巴斯克、紅豆奶油吐司、黑糖拿鐵</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:00–17:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">ENSEMBLE COFFEE MIYAKOISLAND</div>
+                            <div class="spot-num city-num">16</div>
+                        </div>
+                        <div class="spot-desc">巴西莓果碗</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–18:00 <span class="note">(二、三休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">EIGHT smoothie's (エイトスムージー)</div>
+                            <div class="spot-num city-num">17</div>
+                        </div>
+                        <div class="spot-desc">水果冰沙</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 08:00–17:00 <span class="note">(二、四休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Blue Seal Miyako Island Painagama Branch</div>
+                            <div class="spot-num city-num">18</div>
+                        </div>
+                        <div class="spot-desc">冰淇淋</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–20:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Aeon Town Miyako Minami Shopping Center</div>
+                            <div class="spot-num city-num">19</div>
+                        </div>
+                        <div class="spot-desc">永旺城宮古南購物中心</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 24小時</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">大創 (ダイソー イオンタウン宮古南SC店)</div>
+                            <div class="spot-num city-num">20</div>
+                        </div>
+                        <div class="spot-desc">在永旺城宮古南購物中心裡</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:00–21:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">唐吉訶德 宮古島店</div>
+                            <div class="spot-num city-num">21</div>
+                        </div>
+                        <div class="spot-desc">綜合賣場</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 08:00–02:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">西松屋 (Nishimatsuya AEON TOWN)</div>
+                            <div class="spot-num city-num">22</div>
+                        </div>
+                        <div class="spot-desc">母嬰用品</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–20:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">松本清 (Matsumotokiyoshi)</div>
+                            <div class="spot-num city-num">23</div>
+                        </div>
+                        <div class="spot-desc">藥妝店</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:00–22:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">無印良品 宮古島City店</div>
+                            <div class="spot-num city-num">24</div>
+                        </div>
+                        <div class="spot-desc">生活用品</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:00–22:00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 宮古島北部 -->
+        <div class="area-section">
+            <div class="area-title area-north">
+                <span>📍 宮古島北部（池間島）</span>
+                <span style="font-size: 13px; font-weight: normal;">標號 25～29</span>
+            </div>
+
+            <div class="map-placeholder">
+                <h3>🗺️ 宮古島北部（池間島）區域地圖（標號 25 ～ 29）</h3>
+                <p>此處已預留圖片位置。<br><code>&lt;img src="north_map.jpg" alt="宮古島北部地圖" /&gt;</code></p>
+            </div>
+
+            <div class="grid-container">
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">海美來 (Kaimiru)</div>
+                            <div class="spot-num north-num">25</div>
+                        </div>
+                        <div class="spot-desc">元祖紅芋餅</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:30–18:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">HARRY'S Shrimp Truck</div>
+                            <div class="spot-num north-num">26</div>
+                        </div>
+                        <div class="spot-desc">蝦蝦飯</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:00–17:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">GELATO CAFE NINUFA</div>
+                            <div class="spot-num north-num">27</div>
+                        </div>
+                        <div class="spot-desc">冰淇淋、披薩 (附近景點：心型岩)</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–17:00 <span class="note">(三休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Yukishio Salt Factory</div>
+                            <div class="spot-num north-num">28</div>
+                        </div>
+                        <div class="spot-desc">雪鹽冰淇淋</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:00–18:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">宮古きび茶屋 さとうきび甘味処</div>
+                            <div class="spot-num north-num">29</div>
+                        </div>
+                        <div class="spot-desc">手打甘蔗汁、刨冰</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 10:00–15:45 <span class="note">(六休息)</span></span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 宮古島南部 -->
+        <div class="area-section">
+            <div class="area-title area-south">
+                <span>📍 宮古島南部</span>
+                <span style="font-size: 13px; font-weight: normal;">標號 30～33</span>
+            </div>
+
+            <div class="map-placeholder">
+                <h3>🗺️ 宮古島南部區域地圖（標號 30 ～ 33）</h3>
+                <p>此處已預留圖片位置。<br><code>&lt;img src="south_map.jpg" alt="宮古島南部地圖" /&gt;</code></p>
+            </div>
+
+            <div class="grid-container">
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">宮古そば まっすぐ</div>
+                            <div class="spot-num south-num">30</div>
+                        </div>
+                        <div class="spot-desc">沖繩麵</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:00–16:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Attakaya（百年老店）</div>
+                            <div class="spot-num south-num">31</div>
+                        </div>
+                        <div class="spot-desc">炸豆腐、炊飯、冷麵</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 17:00–22:00 <span class="note">(二休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">木炭烤肉 琉宮園</div>
+                            <div class="spot-num south-num">32</div>
+                        </div>
+                        <div class="spot-desc">宮古和牛</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 17:00–22:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Aragusuku Honeybee Garden</div>
+                            <div class="spot-num south-num">33</div>
+                        </div>
+                        <div class="spot-desc">蜂蜜堅果冰淇淋</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:30–15:00 <span class="note">(一、二休息)</span></span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 伊良部島 -->
+        <div class="area-section">
+            <div class="area-title area-irabu">
+                <span>📍 伊良部島</span>
+                <span style="font-size: 13px; font-weight: normal;">標號 34～37</span>
+            </div>
+
+            <div class="map-placeholder">
+                <h3>🗺️ 伊良部島區域地圖（標號 34 ～ 37）</h3>
+                <p>此處已預留圖片位置。<br><code>&lt;img src="irabu_map.jpg" alt="伊良部島地圖" /&gt;</code></p>
+            </div>
+
+            <div class="grid-container">
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">さとうきびの店ぶーずやー</div>
+                            <div class="spot-num irabu-num">34</div>
+                        </div>
+                        <div class="spot-desc">黑糖拿鐵</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 12:00–18:00 <span class="note">(一休息)</span></span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">NAKAYUKUISHOTEN なかゆくい商店</div>
+                            <div class="spot-num irabu-num">35</div>
+                        </div>
+                        <div class="spot-desc">炸芋球</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 09:30–12:00, 13:30–16:00 <span class="note">(一、四休息)</span></span>
+                    </div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Kuninaka Shoten 國仲商店</div>
+                            <div class="spot-num irabu-num">36</div>
+                        </div>
+                        <div class="spot-desc">咖啡 / 雜貨</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 08:00–19:00</span></div>
+                </div>
+
+                <div class="spot-card">
+                    <div>
+                        <div class="spot-header">
+                            <div class="spot-name">Blue Turtle</div>
+                            <div class="spot-num irabu-num">37</div>
+                        </div>
+                        <div class="spot-desc">咖喱飯、宮古牛漢堡排</div>
+                    </div>
+                    <div class="spot-time"><span>🕒 11:00–21:00</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ==================== TAB 2: 行程路線 ==================== -->
+    <div id="itinerary" class="tab-content">
+
+        <!-- 第一天 -->
+        <div class="area-section">
+            <div class="area-title area-day">
+                <span>🗓️ 第一天 (10/12) 星期一</span>
+                <span style="font-size: 13px; font-weight: normal;">下地島抵達 ‧ 購物與美食日</span>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-flight">交通</span>
+                    <div class="spot-name">✈️ 下地島機場抵達 & 🚗 OTS 租車取車</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">美食 37</span>
+                    <div class="spot-name">Blue Turtle</div>
+                    <div class="spot-desc">咖喱飯、宮古牛漢堡排</div>
+                    <div class="spot-time">🕒 營業至 21:00</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-hotel">飯店 Check-in</span>
+                    <div class="spot-name">🏨 沖繩宮古島希爾頓嘉悅里度假酒店</div>
+                    <div class="spot-desc">Canopy by Hilton Miyako Island</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-shop">購物</span>
+                    <div class="spot-name">🛍️ ALEXIA STAM 宮古島</div>
+                    <div class="spot-desc">Hello Kitty 聯名、泳衣、包包配件</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-shop">購物市區 19~24</span>
+                    <div class="spot-name">🛒 市區賣場爆買巡禮</div>
+                    <div class="spot-desc" style="margin-top: 5px;">
+                        • <strong>永旺城宮古南購物中心 19</strong> (24h)<br>
+                        • <strong>大創 DAISO 20</strong> (最晚至 21:00)<br>
+                        • <strong>無印良品 宮古島City店 24</strong> (最晚至 22:00)<br>
+                        • <strong>唐吉訶德 宮古島店 21</strong> (營業至 02:00)
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">晚餐 4</span>
+                    <div class="spot-name">🍽️ Ryukyu Tonkatsu Mitsuya 炸豬排</div>
+                    <div class="spot-time">🕒 營業至 22:00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二天 -->
+        <div class="area-section">
+            <div class="area-title area-day">
+                <span>🗓️ 第二天 (10/13) 星期二</span>
+                <span style="font-size: 13px; font-weight: normal;">飯店奢華度假 ‧ 下午茶與拉麵夜</span>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-hotel">飯店體驗</span>
+                    <div class="spot-name">🍳 希爾頓嘉悅里酒店 早餐</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-spot">放鬆</span>
+                    <div class="spot-name">🏊 飯店無邊際泳池暢游</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">甜點下午茶 9 & 12</span>
+                    <div class="spot-name">☕ 下午茶雙饗宴</div>
+                    <div class="spot-desc" style="margin-top: 5px;">
+                        • <strong>小さな幸せ Sakuri 9</strong>（小可頌、巴斯克）<span class="note">最晚至 15:00</span><br>
+                        • <strong>Moja's Bakery モジャのパン屋 12</strong>（人氣麵包）<span class="note">最晚至 15:00</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-spot">景點</span>
+                    <div class="spot-name">🏖️ 飯店專屬沙灘漫步</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">晚餐/宵夜 7</span>
+                    <div class="spot-name">🍜 琉球拉麵 MenyaYamato</div>
+                    <div class="spot-time">🕒 營業至 03:00 (深夜食堂首選)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三天 -->
+        <div class="area-section">
+            <div class="area-title area-day">
+                <span>🗓️ 第三天 (10/14) 星期三</span>
+                <span style="font-size: 13px; font-weight: normal;">伊良部島深度遊 ‧ 絕景與宮古牛燒肉</span>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">早餐 15 & 14</span>
+                    <div class="spot-name">☕ NINGIN COFFEE エンギン珈琲</div>
+                    <div class="spot-desc">巴斯克、紅豆奶油吐司、黑糖拿鐵（至 17:00）</div>
+                    <div class="note" style="margin-top: 4px;">💡 備案：Kujira Diner 飯糰 14 (至 13:00)</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-spot">景點巡禮</span>
+                    <div class="spot-name">🌊 伊良部島跨海大橋 & 絕景打卡</div>
+                    <div class="spot-desc" style="margin-top: 5px;">
+                        • <strong>17END</strong>（下地島機場跑道海景）<br>
+                        • <strong>渡口の浜</strong>（極致白沙灘）
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">伊良部島美食 35, 34, 36</span>
+                    <div class="spot-name">🍡 島上散策與點心巡禮</div>
+                    <div class="spot-desc" style="margin-top: 5px;">
+                        • <strong>なかゆくい商店 35</strong>（必吃炸芋球）<span class="note">至 16:00</span><br>
+                        • <strong>さとうきびの店ぶーずやー 34</strong>（黑糖拿鐵）<span class="note">至 18:00</span><br>
+                        • <strong>國仲商店 Kuninaka Shoten 36</strong>（咖啡雜貨）<span class="note">至 17:00</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-food">晚餐 8</span>
+                    <div class="spot-name">🥩 宮古牛焼肉 玉城</div>
+                    <div class="spot-desc">頂級宮古和牛燒肉盛宴</div>
+                    <div class="spot-time">🕒 17:00–23:00</div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-tag tag-hotel">入住</span>
+                    <div class="spot-name">🏨 入住 Apartment 11</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // 隱藏所有 tab 內容
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // 取消所有按鈕 active 狀態
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // 顯示點選的 tab 內容與標亮按鈕
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>
