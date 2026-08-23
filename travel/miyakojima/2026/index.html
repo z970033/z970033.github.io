@@ -56,7 +56,6 @@
             opacity: 0.9;
         }
 
-        /* Tab 切換按鈕樣式 */
         .tab-container {
             display: flex;
             justify-content: center;
@@ -87,15 +86,6 @@
             opacity: 0.9;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* 區塊樣式 */
         .area-section {
             margin-bottom: 30px;
             background: white;
@@ -247,7 +237,6 @@
             font-weight: 500;
         }
 
-        /* 行程時間軸樣式 */
         .timeline {
             display: flex;
             flex-direction: column;
@@ -276,6 +265,12 @@
             border-radius: 50%;
             background-color: #008080;
             border: 2px solid white;
+        }
+
+        .timeline-drive {
+            font-size: 12px;
+            color: var(--text-muted);
+            padding-left: 4px;
         }
 
         .timeline-tag {
@@ -312,6 +307,16 @@
             color: #15803d;
         }
 
+        .tag-act {
+            background-color: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .tag-backup {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -343,777 +348,253 @@
 </head>
 
 <body>
+    <div id="app">
 
-    <div class="header">
-        <h1>宮古島景點美食與行程指南</h1>
-        <p>分區區域地圖 ‧ 精確編號定位 ‧ 每日行程路線</p>
-    </div>
+        <div class="header">
+            <h1>宮古島景點美食與行程指南</h1>
+            <p>分區區域地圖 ‧ 精確編號定位 ‧ 每日行程路線</p>
+        </div>
 
-    <!-- Tab 切換選單 -->
-    <div class="tab-container">
-        <button class="tab-button active" onclick="switchTab('spots')">📍 分區美食景點</button>
-        <button class="tab-button" onclick="switchTab('itinerary')">🗓️ 8天7夜行程路線</button>
-    </div>
+        <div class="tab-container">
+            <button v-for="tab in tabs" :key="tab.key" class="tab-button" :class="{active: activeTab === tab.key}"
+                @click="activeTab = tab.key">{{ tab.label }}</button>
+        </div>
 
-    <!-- ==================== TAB 1: 分區美食景點 ==================== -->
-    <div id="spots" class="tab-content active">
-
-        <!-- 宮古島市區 -->
-        <div class="area-section">
-            <div class="area-title area-city">
-                <span>📍 宮古島市區 (Central City)</span>
-                <span style="font-size: 13px; font-weight: normal;">標號 1～24</span>
-            </div>
-
-            <div class="map-placeholder">
-                <h3>🗺️ 宮古島市區區域地圖（標號 1 ～ 24）</h3>
-                <p>此處已預留圖片位置。<br><code>&lt;img src="city_map.jpg" alt="宮古島市區地圖" /&gt;</code></p>
-            </div>
-
-            <div class="grid-container">
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">麺屋 サマー太陽</div>
-                            <div class="spot-num city-num">1</div>
-                        </div>
-                        <div class="spot-desc">鮮蝦拉麵</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:30–14:30 <span class="note">(六、三休息)</span></span></div>
+        <!-- ==================== 分區美食景點 ==================== -->
+        <div v-show="activeTab === 'spots'">
+            <div class="area-section" v-for="area in areas" :key="area.key">
+                <div class="area-title" :class="area.badgeClass">
+                    <span>📍 {{ area.title }}</span>
+                    <span style="font-size:13px;font-weight:normal">標號 {{ area.range }}</span>
                 </div>
 
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Restaurant Qui.Town</div>
-                            <div class="spot-num city-num">2</div>
-                        </div>
-                        <div class="spot-desc">義式料理</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:30–14:00, 17:30–21:00 <span
-                                class="note">(一休息)</span><br>日：08:00–14:00</span></div>
+                <div class="map-placeholder">
+                    <h3>🗺️ {{ area.title }}區域地圖（標號 {{ area.range }}）</h3>
+                    <p>此處已預留圖片位置。<br><code>&lt;img src="{{ area.mapFile }}" alt="{{ area.title }}地圖" /&gt;</code></p>
                 </div>
 
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Tenkaippin-Miyakojima</div>
-                            <div class="spot-num city-num">3</div>
+                <div class="grid-container">
+                    <div class="spot-card" v-for="spot in area.spots" :key="spot.num">
+                        <div>
+                            <div class="spot-header">
+                                <div class="spot-name">{{ spot.name }}</div>
+                                <div class="spot-num" :class="area.numClass">{{ spot.num }}</div>
+                            </div>
+                            <div class="spot-desc">{{ spot.desc }}</div>
                         </div>
-                        <div class="spot-desc">天下一品（拉麵、煎餃、炸雞）</div>
+                        <div class="spot-time">🕒 <span v-html="spot.time"></span></div>
                     </div>
-                    <div class="spot-time"><span>🕒 11:00–22:00 <span class="note">(二休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Ryukyu Tonkatsu Mitsuya</div>
-                            <div class="spot-num city-num">4</div>
-                        </div>
-                        <div class="spot-desc">炸豬排</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:00–22:00 <span class="note">(五休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">鰓呼吸 宮古島店</div>
-                            <div class="spot-num city-num">5</div>
-                        </div>
-                        <div class="spot-desc">居酒屋</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 17:00–23:30</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">宮古島居酒屋 幸蔵</div>
-                            <div class="spot-num city-num">6</div>
-                        </div>
-                        <div class="spot-desc">居酒屋</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:30–14:00、17:30–22:30</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">琉球拉麵 MenyaYamato</div>
-                            <div class="spot-num city-num">7</div>
-                        </div>
-                        <div class="spot-desc">拉麵</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 18:00–03:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">宮古牛焼肉 玉城</div>
-                            <div class="spot-num city-num">8</div>
-                        </div>
-                        <div class="spot-desc">燒肉</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 17:00–23:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">小さな幸せ Sakuri</div>
-                            <div class="spot-num city-num">9</div>
-                        </div>
-                        <div class="spot-desc">小可頌、巴斯克</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–15:00 <span class="note">(一、五休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">空見茶屋</div>
-                            <div class="spot-num city-num">10</div>
-                        </div>
-                        <div class="spot-desc">茶屋</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:00–18:00 <span class="note">(二休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Burwood Donuts</div>
-                            <div class="spot-num city-num">11</div>
-                        </div>
-                        <div class="spot-desc">甜甜圈</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:30–17:00 <span class="note">(二、三休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Moja's Bakery モジャのパン屋</div>
-                            <div class="spot-num city-num">12</div>
-                        </div>
-                        <div class="spot-desc">麵包</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–15:00 <span
-                                class="note">(一、日休息)</span><br>六：10:00–12:30</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Monte Doll Banana Cake Shop</div>
-                            <div class="spot-num city-num">13</div>
-                        </div>
-                        <div class="spot-desc">香蕉蛋糕、牛奶、伴手禮</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:30–20:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Kujira Diner</div>
-                            <div class="spot-num city-num">14</div>
-                        </div>
-                        <div class="spot-desc">飯糰</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 07:30–13:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">NINGIN COFFEE エンギン珈琲</div>
-                            <div class="spot-num city-num">15</div>
-                        </div>
-                        <div class="spot-desc">巴斯克、紅豆奶油吐司、黑糖拿鐵</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:00–17:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">ENSEMBLE COFFEE MIYAKOISLAND</div>
-                            <div class="spot-num city-num">16</div>
-                        </div>
-                        <div class="spot-desc">巴西莓果碗</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–18:00 <span class="note">(二、三休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">EIGHT smoothie's (エイトスムージー)</div>
-                            <div class="spot-num city-num">17</div>
-                        </div>
-                        <div class="spot-desc">水果冰沙</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 08:00–17:00 <span class="note">(二、四休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Blue Seal Miyako Island Painagama Branch</div>
-                            <div class="spot-num city-num">18</div>
-                        </div>
-                        <div class="spot-desc">冰淇淋</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–20:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Aeon Town Miyako Minami Shopping Center</div>
-                            <div class="spot-num city-num">19</div>
-                        </div>
-                        <div class="spot-desc">永旺城宮古南購物中心</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 24小時</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">大創 (ダイソー イオンタウン宮古南SC店)</div>
-                            <div class="spot-num city-num">20</div>
-                        </div>
-                        <div class="spot-desc">在永旺城宮古南購物中心裡</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:00–21:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">唐吉訶德 宮古島店</div>
-                            <div class="spot-num city-num">21</div>
-                        </div>
-                        <div class="spot-desc">綜合賣場</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 08:00–02:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">西松屋 (Nishimatsuya AEON TOWN)</div>
-                            <div class="spot-num city-num">22</div>
-                        </div>
-                        <div class="spot-desc">母嬰用品</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–20:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">松本清 (Matsumotokiyoshi)</div>
-                            <div class="spot-num city-num">23</div>
-                        </div>
-                        <div class="spot-desc">藥妝店</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:00–22:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">無印良品 宮古島City店</div>
-                            <div class="spot-num city-num">24</div>
-                        </div>
-                        <div class="spot-desc">生活用品</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:00–22:00</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- 宮古島北部 -->
-        <div class="area-section">
-            <div class="area-title area-north">
-                <span>📍 宮古島北部（池間島）</span>
-                <span style="font-size: 13px; font-weight: normal;">標號 25～29</span>
-            </div>
-
-            <div class="map-placeholder">
-                <h3>🗺️ 宮古島北部（池間島）區域地圖（標號 25 ～ 29）</h3>
-                <p>此處已預留圖片位置。<br><code>&lt;img src="north_map.jpg" alt="宮古島北部地圖" /&gt;</code></p>
-            </div>
-
-            <div class="grid-container">
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">海美來 (Kaimiru)</div>
-                            <div class="spot-num north-num">25</div>
-                        </div>
-                        <div class="spot-desc">元祖紅芋餅</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:30–18:00</span></div>
+        <!-- ==================== 8天7夜行程路線 ==================== -->
+        <div v-show="activeTab === 'itinerary'">
+            <div class="area-section" v-for="day in itinerary" :key="day.day">
+                <div class="area-title area-day">
+                    <span>{{ day.title }}</span>
+                    <span style="font-size:13px;font-weight:normal">{{ day.hotel }}</span>
                 </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">HARRY'S Shrimp Truck</div>
-                            <div class="spot-num north-num">26</div>
+                <div class="timeline">
+                    <template v-for="(item, idx) in day.items" :key="idx">
+                        <div class="timeline-item">
+                            <span class="timeline-tag" :class="item.tagClass">{{ item.tag }}</span>
+                            <strong>{{ item.name }}</strong>
+                            <span v-if="item.note" class="note">{{ item.note }}</span>
                         </div>
-                        <div class="spot-desc">蝦蝦飯</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:00–17:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">GELATO CAFE NINUFA</div>
-                            <div class="spot-num north-num">27</div>
-                        </div>
-                        <div class="spot-desc">冰淇淋、披薩 (附近景點：心型岩)</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–17:00 <span class="note">(三休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Yukishio Salt Factory</div>
-                            <div class="spot-num north-num">28</div>
-                        </div>
-                        <div class="spot-desc">雪鹽冰淇淋</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:00–18:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">宮古きび茶屋 さとうきび甘味処</div>
-                            <div class="spot-num north-num">29</div>
-                        </div>
-                        <div class="spot-desc">手打甘蔗汁、刨冰</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 10:00–15:45 <span class="note">(六休息)</span></span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 宮古島南部 -->
-        <div class="area-section">
-            <div class="area-title area-south">
-                <span>📍 宮古島南部</span>
-                <span style="font-size: 13px; font-weight: normal;">標號 30～33</span>
-            </div>
-
-            <div class="map-placeholder">
-                <h3>🗺️ 宮古島南部區域地圖（標號 30 ～ 33）</h3>
-                <p>此處已預留圖片位置。<br><code>&lt;img src="south_map.jpg" alt="宮古島南部地圖" /&gt;</code></p>
-            </div>
-
-            <div class="grid-container">
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">宮古そば まっすぐ</div>
-                            <div class="spot-num south-num">30</div>
-                        </div>
-                        <div class="spot-desc">沖繩麵</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:00–16:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Attakaya（百年老店）</div>
-                            <div class="spot-num south-num">31</div>
-                        </div>
-                        <div class="spot-desc">炸豆腐、炊飯、冷麵</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 17:00–22:00 <span class="note">(二休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">木炭烤肉 琉宮園</div>
-                            <div class="spot-num south-num">32</div>
-                        </div>
-                        <div class="spot-desc">宮古和牛</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 17:00–22:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Aragusuku Honeybee Garden</div>
-                            <div class="spot-num south-num">33</div>
-                        </div>
-                        <div class="spot-desc">蜂蜜堅果冰淇淋</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:30–15:00 <span class="note">(一、二休息)</span></span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 伊良部島 -->
-        <div class="area-section">
-            <div class="area-title area-irabu">
-                <span>📍 伊良部島</span>
-                <span style="font-size: 13px; font-weight: normal;">標號 34～37</span>
-            </div>
-
-            <div class="map-placeholder">
-                <h3>🗺️ 伊良部島區域地圖（標號 34 ～ 37）</h3>
-                <p>此處已預留圖片位置。<br><code>&lt;img src="irabu_map.jpg" alt="伊良部島地圖" /&gt;</code></p>
-            </div>
-
-            <div class="grid-container">
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">さとうきびの店ぶーずやー</div>
-                            <div class="spot-num irabu-num">34</div>
-                        </div>
-                        <div class="spot-desc">黑糖拿鐵</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 12:00–18:00 <span class="note">(一休息)</span></span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">NAKAYUKUISHOTEN なかゆくい商店</div>
-                            <div class="spot-num irabu-num">35</div>
-                        </div>
-                        <div class="spot-desc">炸芋球</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 09:30–12:00, 13:30–16:00 <span class="note">(一、四休息)</span></span>
-                    </div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Kuninaka Shoten 國仲商店</div>
-                            <div class="spot-num irabu-num">36</div>
-                        </div>
-                        <div class="spot-desc">咖啡 / 雜貨</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 08:00–19:00</span></div>
-                </div>
-
-                <div class="spot-card">
-                    <div>
-                        <div class="spot-header">
-                            <div class="spot-name">Blue Turtle</div>
-                            <div class="spot-num irabu-num">37</div>
-                        </div>
-                        <div class="spot-desc">咖喱飯、宮古牛漢堡排</div>
-                    </div>
-                    <div class="spot-time"><span>🕒 11:00–21:00</span></div>
+                        <div class="timeline-drive" v-if="item.drive">{{ item.drive }}</div>
+                    </template>
                 </div>
             </div>
         </div>
 
     </div>
 
-
-    <!-- ==================== TAB 2: 行程路線 ==================== -->
-    <div id="itinerary" class="tab-content">
-
-        <!-- 第一天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第一天 (10/12) 一</span>
-                <span style="font-size: 13px; font-weight: normal;">沖繩宮古島希爾頓嘉悅里度假酒店</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-flight">交通</span> <strong>下地島機場</strong></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-act">租車</span> <strong>ots租車</strong></div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>Blue Turtle</strong>
-                </div>
-                <div class="timeline-drive">🚗 車程約 15 分鐘（過伊良部大橋）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span>
-                    <strong>沖繩宮古島希爾頓嘉悅里度假酒店</strong>
-                </div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>alexia stam
-                        宮古島</strong> (Hello Kitty、泳衣、包包）</div>
-                <div class="timeline-drive">🚗 車程約 8 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>Aeon Town Miyako Minami
-                        Shopping Center</strong> 永旺城宮古南購物中心</div>
-                <div class="timeline-drive">🚗 步行/車程約 1 分鐘（同商圈）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>大創</strong> (ダイソー
-                    イオンタウン宮古南SC店) <span class="note">21:00</span></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>無印良品 宮古島City店</strong>
-                    <span class="note">22:00</span>
-                </div>
-                <div class="timeline-drive">🚗 車程約 6 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>唐吉訶德 宮古島店</strong>
-                    <span class="note">2:00</span>
-                </div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span> <strong>Ryukyu Tonkatsu
-                        Mitsuya炸豬排</strong> <span class="note">22:00</span></div>
-            </div>
-        </div>
-
-        <!-- 第二天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第二天 (10/13) 二</span>
-                <span style="font-size: 13px; font-weight: normal;">沖繩宮古島希爾頓嘉悅里度假酒店</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>沖繩宮古島希爾頓嘉悅里度假酒店
-                        早餐</strong></div>
-                <div class="timeline-drive">🚶 飯店館內設施</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>飯店無邊際泳池</strong></div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">下午茶</span> <strong>小さな幸せ Sakuri
-                        9</strong>（小可頌、巴斯克）<span class="note">15:00</span></div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">下午茶</span> <strong>Moja's Bakery
-                        モジャのパン屋</strong> 麵包 <span class="note">15:00</span></div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>飯店沙灘</strong></div>
-                <div class="timeline-drive">🚗 車程約 8 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span> <strong>琉球拉麵
-                        MenyaYamato</strong> <span class="note">3:00</span></div>
-            </div>
-        </div>
-
-        <!-- 第三天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第三天 (10/14) 三</span>
-                <span style="font-size: 13px; font-weight: normal;">Apartment 11</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-spot">區域</span> <strong>伊良部島</strong></div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（從希爾頓跨海前往）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">飲品</span>
-                    <strong>さとうきびの店ぶーずやー</strong>(黑糖拿鐵) <span class="note">18:00</span>
-                </div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>NAKAYUKUISHOTEN
-                        なかゆくい商店</strong>(炸芋球) <span class="note">16:00</span></div>
-                <div class="timeline-drive">🚗 車程約 2 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>1 LAB Hello,
-                        VACAY宮古島</strong>(伴手禮）<span class="note">17:00</span></div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>Kuninaka Shoten
-                        國仲商店</strong> <span class="note">17:00</span></div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>17END 渡口の浜</strong>
-                </div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（過橋回市區）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span> <strong>宮古牛焼肉 玉城</strong> <span
-                        class="note">23:00</span></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>Apartment 11</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- 第四天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第四天 (10/15) 四</span>
-                <span style="font-size: 13px; font-weight: normal;">Apartment 11</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-spot">區域</span> <strong>北部池間島</strong></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">早餐</span> <strong>Kujira
-                        Diner</strong>（飯糰）<span class="note">13:00</span></div>
-                <div class="timeline-drive">🚗 車程約 15 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>宮古島海中公園</strong> <span
-                        class="note">17:00</span></div>
-                <div class="timeline-drive">🚗 車程約 15 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>池間大橋展望台停車場</strong>
-                </div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘（過池間大橋）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>海美來 (Kaimiru)</strong>
-                    元祖紅芋餅 <span class="note">18:00</span></div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>HARRY'S Shrimp
-                        Truck</strong>（蝦蝦飯）<span class="note">17:00</span></div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>宮古きび茶屋
-                        さとうきび甘味処</strong>(手打甘蔗汁、刨冰) <span class="note">15:45</span></div>
-                <div class="timeline-drive">🚗 車程約 15 分鐘（返回本島雪鹽工場）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>Yukishio Salt
-                        Factory</strong>(雪鹽冰淇淋) <span class="note">18:00</span></div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（往池間島方向）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>心形岩</strong></div>
-                <div class="timeline-drive">🚗 車程約 2 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-backup">備案</span> <strong>GELATO CAFE
-                        NINUFA</strong>（冰淇淋、披薩 )</div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（往市區方向）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-backup">備案</span> <strong>砂山海灘</strong>（砂山ビーチ）
-                </div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span> <strong>Restaurant
-                        Qui.Town</strong></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>Apartment 11</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- 第五天 -->
-        <!-- 第五天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第五天 (10/16) 五</span>
-                <span style="font-size: 13px; font-weight: normal;">Apartment 11</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-spot">區域</span> <strong>南部</strong></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">早餐</span> <strong>NINGIN COFFEE
-                        エンギン珈琲</strong>（巴斯克、紅豆奶油吐司、黑糖拿鐵）<span class="note">17:00</span></div>
-                <div class="timeline-drive">🚗 車程約 3 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>宮古神社</strong></div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘（前往集合碼頭）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-act">行程</span> <strong>kkday行程Uni
-                        Beach遊船之旅</strong> <span class="note">（9:30、2小時）</span></div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">午餐</span> <strong>麺屋
-                        サマー太陽</strong>（鮮蝦拉麵）<span class="note">14:30</span></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">美食</span> <strong>Blue Seal Miyako Island
-                        Painagama Branch</strong>（冰淇淋）<span class="note">20:00</span></div>
-                <div class="timeline-drive">🚗 車程約 25 分鐘（前往南部渡假村區）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>The Shigira Lift Ocean
-                        Sky纜車</strong> <span class="note">17:00</span></div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-backup">備案</span>
-                    <strong>與那覇前濱海灘</strong>（與那覇前浜ビーチ）
-                </div>
-                <div class="timeline-drive">🚗 車程約 15 分鐘（返回市區）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span>
-                    <strong>Attakaya</strong>（百年老店）<span class="note">22:00</span>
-                </div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>Apartment 11</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- 第六天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第六天 (10/17) 六</span>
-                <span style="font-size: 13px; font-weight: normal;">Apartment 11</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-food">早餐</span> <strong>前一天先買好早餐 Burwood Donuts
-                        甜甜圈</strong></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">早餐</span> <strong>ENSEMBLE COFFEE
-                        MIYAKOISLAND</strong> 巴西莓果碗</div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（前往池間島/港口集合點）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-act">行程</span> <strong>八重干瀨搭船浮潛體驗</strong>
-                    <span class="note">(8:30/11:30 2個半小時）</span>
-                </div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（回本島）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-backup">備案</span> <strong>GELATO CAFE
-                        NINUFA</strong>（冰淇淋、披薩 )</div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-backup">備案</span> <strong>砂山海灘</strong>（砂山ビーチ）
-                </div>
-                <div class="timeline-drive">🚗 車程約 10 分鐘（前往市區）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span> <strong>Doug's Burger
-                        漢堡店</strong> <span class="note">20:00</span></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>Apartment 11</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- 第七天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第七天 (10/18) 日</span>
-                <span style="font-size: 13px; font-weight: normal;">Apartment 11</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-act">行程</span> <strong>Lani 宮古島</strong>（SUP)
-                </div>
-                <div class="timeline-drive">🚗 車程約 15 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">午餐</span> <strong>宮古そば まっすぐ</strong> 沖繩麵
-                    <span class="note">16:00</span>
-                </div>
-                <div class="timeline-drive">🚗 車程約 25 分鐘（往東部城邊地區）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">甜點</span> <strong>Aragusuku Honeybee
-                        Garden</strong>（蜂蜜堅果冰淇淋）</div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（往市區方向）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-backup">備案</span> <strong>ぐるぐるめんや 宮古島</strong>
-                    刨冰店 <span class="note">17:30</span></div>
-                <div class="timeline-drive">🚗 車程約 25 分鐘（往東南部海灘）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-spot">景點</span> <strong>新城沙灘</strong></div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（前往南部度假村）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-food">晚餐</span> <strong>木炭烤肉 琉宮園</strong></div>
-                <div class="timeline-drive">🚗 車程約 20 分鐘（返回市區）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-shop">購物</span> <strong>逛街</strong></div>
-                <div class="timeline-drive">🚗 車程約 5 分鐘</div>
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>Apartment 11</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- 第八天 -->
-        <div class="area-section">
-            <div class="area-title area-day">
-                <span>第八天 (10/19) 一</span>
-                <span style="font-size: 13px; font-weight: normal;">返程</span>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item"><span class="timeline-tag tag-hotel">飯店</span> <strong>Apartment 11
-                        退房</strong></div>
-                <div class="timeline-drive">🚗 車程約 25 分鐘（過伊良部大橋）</div>
-                <div class="timeline-item"><span class="timeline-tag tag-flight">交通</span> <strong>下地島機場</strong></div>
-                <div class="timeline-drive">✈️ 班機起飛</div>
-                <div class="timeline-item"><span class="timeline-tag tag-flight">行程</span> <strong>回家</strong></div>
-            </div>
-        </div>
-
-    </div>
-
-    </div>
-
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script>
-        function switchTab(tabId) {
-            // 隱藏所有 tab 內容
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
+        const { createApp } = Vue;
 
-            // 取消所有按鈕 active 狀態
-            const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => button.classList.remove('active'));
-
-            // 顯示點選的 tab 內容與標亮按鈕
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
+        createApp({
+            data() {
+                return {
+                    activeTab: 'spots',
+                    tabs: [
+                        { key: 'spots', label: '📍 分區美食景點' },
+                        { key: 'itinerary', label: '🗓️ 8天7夜行程路線' },
+                    ],
+                    areas: [
+                        {
+                            key: 'city', title: '宮古島市區 (Central City)', range: '1～24',
+                            badgeClass: 'area-city', numClass: 'city-num', mapFile: 'city_map.jpg',
+                            spots: [
+                                { num: 1, name: '麺屋 サマー太陽', desc: '鮮蝦拉麵', time: '10:30–14:30 <span class="note">(六、三休息)</span>' },
+                                { num: 2, name: 'Restaurant Qui.Town', desc: '義式料理', time: '11:30–14:00, 17:30–21:00 <span class="note">(一休息)</span><br>日：08:00–14:00' },
+                                { num: 3, name: 'Tenkaippin-Miyakojima', desc: '天下一品（拉麵、煎餃、炸雞）', time: '11:00–22:00 <span class="note">(二休息)</span>' },
+                                { num: 4, name: 'Ryukyu Tonkatsu Mitsuya', desc: '炸豬排', time: '11:00–22:00 <span class="note">(五休息)</span>' },
+                                { num: 5, name: '鰓呼吸 宮古島店', desc: '居酒屋', time: '17:00–23:30' },
+                                { num: 6, name: '宮古島居酒屋 幸蔵', desc: '居酒屋', time: '11:30–14:00、17:30–22:30' },
+                                { num: 7, name: '琉球拉麵 MenyaYamato', desc: '拉麵', time: '18:00–03:00' },
+                                { num: 8, name: '宮古牛焼肉 玉城', desc: '燒肉', time: '17:00–23:00' },
+                                { num: 9, name: '小さな幸せ Sakuri', desc: '小可頌、巴斯克', time: '10:00–15:00 <span class="note">(一、五休息)</span>' },
+                                { num: 10, name: '空見茶屋', desc: '茶屋', time: '11:00–18:00 <span class="note">(二休息)</span>' },
+                                { num: 11, name: 'Burwood Donuts', desc: '甜甜圈', time: '10:30–17:00 <span class="note">(二、三休息)</span>' },
+                                { num: 12, name: "Moja's Bakery モジャのパン屋", desc: '麵包', time: '10:00–15:00 <span class="note">(一、日休息)</span><br>六：10:00–12:30' },
+                                { num: 13, name: 'Monte Doll Banana Cake Shop', desc: '香蕉蛋糕、牛奶、伴手禮', time: '11:30–20:00' },
+                                { num: 14, name: 'Kujira Diner', desc: '飯糰', time: '07:30–13:00' },
+                                { num: 15, name: 'NINGIN COFFEE エンギン珈琲', desc: '巴斯克、紅豆奶油吐司、黑糖拿鐵', time: '09:00–17:00' },
+                                { num: 16, name: 'ENSEMBLE COFFEE MIYAKOISLAND', desc: '巴西莓果碗', time: '10:00–18:00 <span class="note">(二、三休息)</span>' },
+                                { num: 17, name: "EIGHT smoothie's (エイトスムージー)", desc: '水果冰沙', time: '08:00–17:00 <span class="note">(二、四休息)</span>' },
+                                { num: 18, name: 'Blue Seal Miyako Island Painagama Branch', desc: '冰淇淋', time: '10:00–20:00' },
+                                { num: 19, name: 'Aeon Town Miyako Minami Shopping Center', desc: '永旺城宮古南購物中心', time: '24小時' },
+                                { num: 20, name: '大創 (ダイソー イオンタウン宮古南SC店)', desc: '在永旺城宮古南購物中心裡', time: '09:00–21:00' },
+                                { num: 21, name: '唐吉訶德 宮古島店', desc: '綜合賣場', time: '08:00–02:00' },
+                                { num: 22, name: '西松屋 (Nishimatsuya AEON TOWN)', desc: '母嬰用品', time: '10:00–20:00' },
+                                { num: 23, name: '松本清 (Matsumotokiyoshi)', desc: '藥妝店', time: '09:00–22:00' },
+                                { num: 24, name: '無印良品 宮古島City店', desc: '生活用品', time: '09:00–22:00' },
+                            ]
+                        },
+                        {
+                            key: 'north', title: '宮古島北部（池間島）', range: '25～29',
+                            badgeClass: 'area-north', numClass: 'north-num', mapFile: 'north_map.jpg',
+                            spots: [
+                                { num: 25, name: '海美來 (Kaimiru)', desc: '元祖紅芋餅', time: '09:30–18:00' },
+                                { num: 26, name: "HARRY'S Shrimp Truck", desc: '蝦蝦飯', time: '11:00–17:00' },
+                                { num: 27, name: 'GELATO CAFE NINUFA', desc: '冰淇淋、披薩（附近景點：心型岩）', time: '10:00–17:00 <span class="note">(三休息)</span>' },
+                                { num: 28, name: 'Yukishio Salt Factory', desc: '雪鹽冰淇淋', time: '09:00–18:00' },
+                                { num: 29, name: '宮古きび茶屋 さとうきび甘味処', desc: '手打甘蔗汁、刨冰', time: '10:00–15:45 <span class="note">(六休息)</span>' },
+                            ]
+                        },
+                        {
+                            key: 'south', title: '宮古島南部', range: '30～33',
+                            badgeClass: 'area-south', numClass: 'south-num', mapFile: 'south_map.jpg',
+                            spots: [
+                                { num: 30, name: '宮古そば まっすぐ', desc: '沖繩麵', time: '11:00–16:00' },
+                                { num: 31, name: 'Attakaya（百年老店）', desc: '炸豆腐、炊飯、冷麵', time: '17:00–22:00 <span class="note">(二休息)</span>' },
+                                { num: 32, name: '木炭烤肉 琉宮園', desc: '宮古和牛', time: '17:00–22:00' },
+                                { num: 33, name: 'Aragusuku Honeybee Garden', desc: '蜂蜜堅果冰淇淋', time: '11:30–15:00 <span class="note">(一、二休息)</span>' },
+                            ]
+                        },
+                        {
+                            key: 'irabu', title: '伊良部島', range: '34～37',
+                            badgeClass: 'area-irabu', numClass: 'irabu-num', mapFile: 'irabu_map.jpg',
+                            spots: [
+                                { num: 34, name: 'さとうきびの店ぶーずやー', desc: '黑糖拿鐵', time: '12:00–18:00 <span class="note">(一休息)</span>' },
+                                { num: 35, name: 'NAKAYUKUISHOTEN なかゆくい商店', desc: '炸芋球', time: '09:30–12:00, 13:30–16:00 <span class="note">(一、四休息)</span>' },
+                                { num: 36, name: 'Kuninaka Shoten 國仲商店', desc: '咖啡 / 雜貨', time: '08:00–19:00' },
+                                { num: 37, name: 'Blue Turtle', desc: '咖喱飯、宮古牛漢堡排', time: '11:00–21:00' },
+                            ]
+                        },
+                    ],
+                    itinerary: [
+                        {
+                            day: 1, title: '第一天 (10/12) 一', hotel: '沖繩宮古島希爾頓嘉悅里度假酒店',
+                            items: [
+                                { tag: '交通', tagClass: 'tag-flight', name: '下地島機場', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '租車', tagClass: 'tag-act', name: 'ots租車', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '美食', tagClass: 'tag-food', name: 'Blue Turtle', drive: '🚗 車程約 15 分鐘（過伊良部大橋）' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: '沖繩宮古島希爾頓嘉悅里度假酒店', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '購物', tagClass: 'tag-shop', name: 'alexia stam 宮古島（Hello Kitty、泳衣、包包）', drive: '🚗 車程約 8 分鐘' },
+                                { tag: '購物', tagClass: 'tag-shop', name: 'Aeon Town Miyako Minami Shopping Center 永旺城宮古南購物中心', drive: '🚗 步行/車程約 1 分鐘（同商圈）' },
+                                { tag: '購物', tagClass: 'tag-shop', name: '大創（ダイソー イオンタウン宮古南SC店）', note: '21:00', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '購物', tagClass: 'tag-shop', name: '無印良品 宮古島City店', note: '22:00', drive: '🚗 車程約 6 分鐘' },
+                                { tag: '購物', tagClass: 'tag-shop', name: '唐吉訶德 宮古島店', note: '2:00', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: 'Ryukyu Tonkatsu Mitsuya 炸豬排', note: '22:00' },
+                            ]
+                        },
+                        {
+                            day: 2, title: '第二天 (10/13) 二', hotel: '沖繩宮古島希爾頓嘉悅里度假酒店',
+                            items: [
+                                { tag: '飯店', tagClass: 'tag-hotel', name: '沖繩宮古島希爾頓嘉悅里度假酒店 早餐', drive: '🚶 飯店館內設施' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: '飯店無邊際泳池', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '下午茶', tagClass: 'tag-food', name: '小さな幸せ Sakuri（小可頌、巴斯克）', note: '15:00', drive: '🚗 車程約 3 分鐘' },
+                                { tag: '下午茶', tagClass: 'tag-food', name: "Moja's Bakery モジャのパン屋 麵包", note: '15:00', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: '飯店沙灘', drive: '🚗 車程約 8 分鐘' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: '琉球拉麵 MenyaYamato', note: '3:00' },
+                            ]
+                        },
+                        {
+                            day: 3, title: '第三天 (10/14) 三', hotel: 'Apartment 11',
+                            items: [
+                                { tag: '區域', tagClass: 'tag-spot', name: '伊良部島', drive: '🚗 車程約 20 分鐘（從希爾頓跨海前往）' },
+                                { tag: '飲品', tagClass: 'tag-food', name: 'さとうきびの店ぶーずやー（黑糖拿鐵）', note: '18:00', drive: '🚗 車程約 3 分鐘' },
+                                { tag: '美食', tagClass: 'tag-food', name: 'NAKAYUKUISHOTEN なかゆくい商店（炸芋球）', note: '16:00', drive: '🚗 車程約 2 分鐘' },
+                                { tag: '購物', tagClass: 'tag-shop', name: '1 LAB Hello, VACAY宮古島（伴手禮）', note: '17:00', drive: '🚗 車程約 3 分鐘' },
+                                { tag: '購物', tagClass: 'tag-shop', name: 'Kuninaka Shoten 國仲商店', note: '17:00', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '景點', tagClass: 'tag-spot', name: '17END 渡口の浜', drive: '🚗 車程約 20 分鐘（過橋回市區）' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: '宮古牛焼肉 玉城', note: '23:00', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: 'Apartment 11' },
+                            ]
+                        },
+                        {
+                            day: 4, title: '第四天 (10/15) 四', hotel: 'Apartment 11',
+                            items: [
+                                { tag: '區域', tagClass: 'tag-spot', name: '北部池間島', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '早餐', tagClass: 'tag-food', name: 'Kujira Diner（飯糰）', note: '13:00', drive: '🚗 車程約 15 分鐘' },
+                                { tag: '景點', tagClass: 'tag-spot', name: '宮古島海中公園', note: '17:00', drive: '🚗 車程約 15 分鐘' },
+                                { tag: '景點', tagClass: 'tag-spot', name: '池間大橋展望台停車場', drive: '🚗 車程約 3 分鐘（過池間大橋）' },
+                                { tag: '美食', tagClass: 'tag-food', name: '海美來 (Kaimiru) 元祖紅芋餅', note: '18:00', drive: '🚗 車程約 3 分鐘' },
+                                { tag: '美食', tagClass: 'tag-food', name: "HARRY'S Shrimp Truck（蝦蝦飯）", note: '17:00', drive: '🚗 車程約 3 分鐘' },
+                                { tag: '美食', tagClass: 'tag-food', name: '宮古きび茶屋 さとうきび甘味処（手打甘蔗汁、刨冰）', note: '15:45', drive: '🚗 車程約 15 分鐘（返回本島雪鹽工場）' },
+                                { tag: '美食', tagClass: 'tag-food', name: 'Yukishio Salt Factory（雪鹽冰淇淋）', note: '18:00', drive: '🚗 車程約 20 分鐘（往池間島方向）' },
+                                { tag: '景點', tagClass: 'tag-spot', name: '心形岩', drive: '🚗 車程約 2 分鐘' },
+                                { tag: '備案', tagClass: 'tag-backup', name: 'GELATO CAFE NINUFA（冰淇淋、披薩）', drive: '🚗 車程約 20 分鐘（往市區方向）' },
+                                { tag: '備案', tagClass: 'tag-backup', name: '砂山海灘（砂山ビーチ）', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: 'Restaurant Qui.Town', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: 'Apartment 11' },
+                            ]
+                        },
+                        {
+                            day: 5, title: '第五天 (10/16) 五', hotel: 'Apartment 11',
+                            items: [
+                                { tag: '區域', tagClass: 'tag-spot', name: '南部', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '早餐', tagClass: 'tag-food', name: 'NINGIN COFFEE エンギン珈琲（巴斯克、紅豆奶油吐司、黑糖拿鐵）', note: '17:00', drive: '🚗 車程約 3 分鐘' },
+                                { tag: '景點', tagClass: 'tag-spot', name: '宮古神社', drive: '🚗 車程約 10 分鐘（前往集合碼頭）' },
+                                { tag: '行程', tagClass: 'tag-act', name: 'kkday行程 Uni Beach遊船之旅', note: '（9:30、2小時）', drive: '🚗 車程約 10 分鐘' },
+                                { tag: '午餐', tagClass: 'tag-food', name: '麺屋 サマー太陽（鮮蝦拉麵）', note: '14:30', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '美食', tagClass: 'tag-food', name: 'Blue Seal Miyako Island Painagama Branch（冰淇淋）', note: '20:00', drive: '🚗 車程約 25 分鐘（前往南部渡假村區）' },
+                                { tag: '景點', tagClass: 'tag-spot', name: 'The Shigira Lift Ocean Sky纜車', note: '17:00', drive: '🚗 車程約 20 分鐘' },
+                                { tag: '備案', tagClass: 'tag-backup', name: '與那覇前濱海灘（與那覇前浜ビーチ）', drive: '🚗 車程約 15 分鐘（返回市區）' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: 'Attakaya（百年老店）', note: '22:00', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: 'Apartment 11' },
+                            ]
+                        },
+                        {
+                            day: 6, title: '第六天 (10/17) 六', hotel: 'Apartment 11',
+                            items: [
+                                { tag: '早餐', tagClass: 'tag-food', name: '前一天先買好早餐 Burwood Donuts 甜甜圈', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '早餐', tagClass: 'tag-food', name: 'ENSEMBLE COFFEE MIYAKOISLAND 巴西莓果碗', drive: '🚗 車程約 20 分鐘（前往池間島/港口集合點）' },
+                                { tag: '行程', tagClass: 'tag-act', name: '八重干瀨搭船浮潛體驗', note: '(8:30/11:30 2個半小時）', drive: '🚗 車程約 20 分鐘（回本島）' },
+                                { tag: '備案', tagClass: 'tag-backup', name: 'GELATO CAFE NINUFA（冰淇淋、披薩）', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '備案', tagClass: 'tag-backup', name: '砂山海灘（砂山ビーチ）', drive: '🚗 車程約 10 分鐘（前往市區）' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: "Doug's Burger 漢堡店", note: '20:00', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: 'Apartment 11' },
+                            ]
+                        },
+                        {
+                            day: 7, title: '第七天 (10/18) 日', hotel: 'Apartment 11',
+                            items: [
+                                { tag: '行程', tagClass: 'tag-act', name: 'Lani 宮古島（SUP）', drive: '🚗 車程約 15 分鐘' },
+                                { tag: '午餐', tagClass: 'tag-food', name: '宮古そば まっすぐ 沖繩麵', note: '16:00', drive: '🚗 車程約 25 分鐘（往東部城邊地區）' },
+                                { tag: '甜點', tagClass: 'tag-food', name: 'Aragusuku Honeybee Garden（蜂蜜堅果冰淇淋）', drive: '🚗 車程約 20 分鐘（往市區方向）' },
+                                { tag: '備案', tagClass: 'tag-backup', name: 'ぐるぐるめんや 宮古島 刨冰店', note: '17:30', drive: '🚗 車程約 25 分鐘（往東南部海灘）' },
+                                { tag: '景點', tagClass: 'tag-spot', name: '新城沙灘', drive: '🚗 車程約 20 分鐘（前往南部度假村）' },
+                                { tag: '晚餐', tagClass: 'tag-food', name: '木炭烤肉 琉宮園', drive: '🚗 車程約 20 分鐘（返回市區）' },
+                                { tag: '購物', tagClass: 'tag-shop', name: '逛街', drive: '🚗 車程約 5 分鐘' },
+                                { tag: '飯店', tagClass: 'tag-hotel', name: 'Apartment 11' },
+                            ]
+                        },
+                        {
+                            day: 8, title: '第八天 (10/19) 一', hotel: '返程',
+                            items: [
+                                { tag: '飯店', tagClass: 'tag-hotel', name: 'Apartment 11 退房', drive: '🚗 車程約 25 分鐘（過伊良部大橋）' },
+                                { tag: '交通', tagClass: 'tag-flight', name: '下地島機場', drive: '✈️ 班機起飛' },
+                                { tag: '行程', tagClass: 'tag-flight', name: '回家' },
+                            ]
+                        },
+                    ],
+                };
+            }
+        }).mount('#app');
     </script>
 
 </body>
