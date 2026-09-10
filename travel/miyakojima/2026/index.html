@@ -63,6 +63,7 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .main-tab-button {
@@ -386,6 +387,29 @@
             color: #475569;
         }
 
+        .flight-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .flight-card h2 {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(0, 128, 128, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .flight-card p {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #475569;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -427,11 +451,14 @@
         <!-- 頂部標題區 -->
         <div class="header">
             <h1>🌴 2026 宮古島海島渡假指南</h1>
-            <p>景點美食地圖 ‧ 伴手禮購物 ‧ 每日行程規劃</p>
+            <p>機票資訊 ‧ 景點美食地圖 ‧ 伴手禮購物 ‧ 每日行程規劃</p>
         </div>
 
-        <!-- 分類一 / 分類二：主要 Tab 選擇器 -->
+        <!-- 第一層：主要 Tab 選擇器 -->
         <div class="main-tab-container">
+            <button class="main-tab-button" :class="{active: mainTab === 'flight'}" @click="mainTab = 'flight'">
+                ✈️ 機票資訊
+            </button>
             <button class="main-tab-button" :class="{active: mainTab === 'spots'}" @click="mainTab = 'spots'">
                 📍 景點美食與伴手禮
             </button>
@@ -440,7 +467,23 @@
             </button>
         </div>
 
-        <!-- ==================== 分類一：景點美食與伴手禮 ==================== -->
+        <!-- ==================== 分類一：機票資訊 ==================== -->
+        <div v-show="mainTab === 'flight'">
+            <div class="area-section">
+                <div class="flight-card">
+                    <h2>✈️ 去程：星宇航空 JX308</h2>
+                    <p>📅 <strong>日期：</strong>2026-10-12 (一)</p>
+                    <p>⏰ <strong>時間：</strong>07:20 臺中國際機場 (RMQ) T2 ✈️ 09:40 下地島機場 (SHI)</p>
+                </div>
+                <div class="flight-card" style="margin-bottom: 0;">
+                    <h2>✈️ 回程：星宇航空 JX309</h2>
+                    <p>📅 <strong>日期：</strong>2026-10-19 (一)</p>
+                    <p>⏰ <strong>時間：</strong>10:40 下地島機場 (SHI) ✈️ 11:00 臺中國際機場 (RMQ) T2</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 分類二：景點美食與伴手禮 ==================== -->
         <div v-show="mainTab === 'spots'">
             <!-- 子 Tab：區域/伴手禮過濾 -->
             <div class="sub-tab-container">
@@ -487,7 +530,7 @@
             </div>
         </div>
 
-        <!-- ==================== 分類二：行程總覽 ==================== -->
+        <!-- ==================== 分類三：行程總覽 ==================== -->
         <div v-show="mainTab === 'itinerary'">
             <!-- 子 Tab：每天行程選擇 -->
             <div class="sub-tab-container">
@@ -537,7 +580,7 @@
         createApp({
             data() {
                 return {
-                    mainTab: 'spots', // 'spots' | 'itinerary'
+                    mainTab: 'flight', // 'flight' | 'spots' | 'itinerary'
                     spotSubTab: 'all', // 'all', 'city', 'north', 'south', 'irabu', 'kurima', 'souvenir'
                     itinerarySubTab: 'all', // 'all' 或 數字 1~8
 
@@ -627,7 +670,7 @@
                         {
                             day: 1, date: '2026-10-12', dateStr: '10/12 一', title: '第一天 (10/12) 一', hotel: '沖繩宮古島希爾頓嘉悅里度假酒店',
                             items: [
-                                { type: 'flight', name: '下地島機場', drive: '🚗 車程約 5 分鐘' },
+                                { type: 'flight', name: '星宇航空 JX308 (07:20 臺中 2 航廈 ✈️ 09:40 下地島)', drive: '🚗 車程約 5 分鐘' },
                                 { type: 'act', name: 'ots租車', drive: '🚗 車程約 10 分鐘' },
                                 { id: 37, drive: '🚗 車程約 15 分鐘（過伊良部大橋）' },
                                 { type: 'hotel', name: '沖繩宮古島希爾頓嘉悅里度假酒店', drive: '🚗 車程約 5 分鐘' },
@@ -736,8 +779,8 @@
                             day: 8, date: '2026-10-19', dateStr: '10/19 一', title: '第八天 (10/19) 一', hotel: '返程',
                             items: [
                                 { type: 'hotel', name: 'Apartment 11 退房', drive: '🚗 車程約 25 分鐘（過伊良部大橋）' },
-                                { type: 'flight', name: '下地島機場', drive: '✈️ 班機起飛' },
-                                { type: 'flight', name: '回家' },
+                                { type: 'flight', name: '星宇航空 JX309 (10:40 下地島 ✈️ 11:00 臺中 2 航廈)', drive: '✈️ 班機起飛返臺' },
+                                { type: 'flight', name: '平安抵達臺中國際機場' },
                             ]
                         },
                     ],
@@ -748,6 +791,7 @@
                 const todayStr = new Date().toISOString().split('T')[0];
                 const matchedDay = this.rawItinerary.find(d => d.date === todayStr);
                 if (matchedDay) {
+                    this.mainTab = 'itinerary';
                     this.itinerarySubTab = matchedDay.day;
                 }
             },
