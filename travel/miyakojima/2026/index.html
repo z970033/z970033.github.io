@@ -586,16 +586,16 @@
 
                     // 分區資訊配置
                     areaList: [
-                        { key: 'city', title: '宮古島市區 (Central City)', shortTitle: '宮古島市區', range: '1～24, 38～42', badgeClass: 'area-city', numClass: 'city-num', mapFile: 'city_map.jpg' },
+                        { key: 'city', title: '宮古島市區 (Central City)', shortTitle: '宮古島市區', range: '1～24, 38～42, 52, 53, 56, 57', badgeClass: 'area-city', numClass: 'city-num', mapFile: 'city_map.jpg' },
                         { key: 'north', title: '宮古島北部（池間島）', shortTitle: '北部（池間島）', range: '25～29, 43～44', badgeClass: 'area-north', numClass: 'north-num', mapFile: 'north_map.jpg' },
-                        { key: 'south', title: '宮古島南部', shortTitle: '宮古島南部', range: '30～33, 45～48', badgeClass: 'area-south', numClass: 'south-num', mapFile: 'south_map.jpg' },
-                        { key: 'irabu', title: '伊良部島', shortTitle: '伊良部島', range: '34～37, 49～51', badgeClass: 'area-irabu', numClass: 'irabu-num', mapFile: 'irabu_map.jpg' },
+                        { key: 'south', title: '宮古島南部與中部', shortTitle: '宮古島南部與中部', range: '30～33, 45～48, 55, 58, 59', badgeClass: 'area-south', numClass: 'south-num', mapFile: 'south_map.jpg' },
+                        { key: 'irabu', title: '伊良部島', shortTitle: '伊良部島', range: '34～37, 49～51, 54', badgeClass: 'area-irabu', numClass: 'irabu-num', mapFile: 'irabu_map.jpg' },
                         { key: 'kurima', title: '來間島', shortTitle: '來間島', range: '伴手禮特選', badgeClass: 'area-kurima', numClass: 'kurima-num' },
                     ],
 
                     // 核心地點資料庫
                     places: [
-                        // 市區 (1-24, 38-42)
+                        // 市區 (1-24, 38-42, 52, 53, 56, 57)
                         { id: 1, areaKey: 'city', type: 'food', name: '麺屋 サマー太陽', desc: '鮮蝦拉麵', time: '10:30–14:30 <span class="note">(六、三休息)</span>' },
                         { id: 2, areaKey: 'city', type: 'food', name: 'Restaurant Qui.Town', desc: '義式料理', time: '11:30–14:00, 17:30–21:00 <span class="note">(一休息)</span><br>日：08:00–14:00' },
                         { id: 3, areaKey: 'city', type: 'food', name: 'Tenkaippin-Miyakojima', desc: '天下一品（拉麵、煎餃、炸雞）', time: '11:00–22:00 <span class="note">(二休息)</span>' },
@@ -624,6 +624,9 @@
                         { id: 39, areaKey: 'city', type: 'spot', name: '宮古神社', desc: '神社', time: '24小時' },
                         { id: 40, areaKey: 'city', type: 'spot', name: '宮古島海中公園', desc: '海中展望塔', time: '09:00–17:00' },
                         { id: 41, areaKey: 'city', type: 'spot', name: '砂山海灘（砂山ビーチ）', desc: '海灘', time: '24小時' },
+                        { id: 52, areaKey: 'city', type: 'food', name: 'いつもコこから', desc: '早餐 / 定食', time: '06:00–14:00' },
+                        { id: 53, areaKey: 'city', type: 'food', name: 'A&W 漢堡', desc: '漢堡速食', time: '09:00–20:00 <span class="note">(四休息)</span><br>日：09:00–17:00' },
+                        { id: 57, areaKey: 'city', type: 'food', name: '火神燒肉', desc: '燒肉（飯店附近）', time: '17:00–22:00 <span class="note">(日休息)</span>' },
 
                         // 伴手禮店家
                         { id: 42, areaKey: 'city', type: 'shop', name: 'alexia stam 宮古島', desc: '販賣類型：Hello Kitty、泳衣、包包', time: '10:00–18:00', isSouvenir: true },
@@ -641,7 +644,7 @@
                         { id: 43, areaKey: 'north', type: 'spot', name: '池間大橋展望台停車場', desc: '展望台', time: '24小時' },
                         { id: 44, areaKey: 'north', type: 'spot', name: '心形岩', desc: '自然景觀', time: '24小時' },
 
-                        // 南部 (30-33, 45-48)
+                        // 南部與中部 (30-33, 45-48, 55, 58, 59)
                         { id: 30, areaKey: 'south', type: 'food', name: '宮古そば まっすぐ', desc: '沖繩麵', time: '11:00–16:00' },
                         { id: 31, areaKey: 'south', type: 'food', name: 'Attakaya（百年老店）', desc: '炸豆腐、炊飯、冷麵', time: '17:00–22:00 <span class="note">(二休息)</span>' },
                         { id: 32, areaKey: 'south', type: 'food', name: '木炭烤肉 琉宮園', desc: '宮古和牛', time: '17:00–22:00' },
@@ -650,8 +653,11 @@
                         { id: 46, areaKey: 'south', type: 'spot', name: '與那覇前濱海灘（與那覇前浜ビーチ）', desc: '海灘', time: '24小時' },
                         { id: 47, areaKey: 'south', type: 'food', name: 'ぐるぐるめんや 宮古島 刨冰店', desc: '刨冰', time: '11:00–17:30' },
                         { id: 48, areaKey: 'south', type: 'spot', name: 'Aragusuku Beach(新城沙灘)', desc: '海灘', time: '24小時' },
+                        { id: 55, areaKey: 'south', type: 'food', name: 'LB CAFE', desc: '早餐 / 咖啡輕食（宮古島中部）', time: '08:30–17:00 <span class="note">(四至16:00)</span>' },
+                        { id: 58, areaKey: 'south', type: 'food', name: '炭火麺屋', desc: '拉麵 / 麵食（新城海岸附近）', time: '11:00–13:30, 18:00–21:30 <span class="note">(日休息)</span>' },
+                        { id: 59, areaKey: 'south', type: 'food', name: 'タコライス専門店 Shot', desc: '塔可飯専門店', time: '11:30–16:00' },
 
-                        // 伊良部島 (34-37, 49-51)
+                        // 伊良部島 (34-37, 49-51, 54)
                         { id: 34, areaKey: 'irabu', type: 'food', name: 'さとうきびの店ぶーずやー', desc: '黑糖拿鐵', time: '12:00–18:00 <span class="note">(一休息)</span>' },
                         { id: 35, areaKey: 'irabu', type: 'food', name: 'NAKAYUKUISHOTEN なかゆくい商店', desc: '炸芋球', time: '09:30–12:00, 13:30–16:00 <span class="note">(一、四休息)</span>' },
                         { id: 36, areaKey: 'irabu', type: 'shop', name: 'Kuninaka Shoten 國仲商店', desc: '咖啡 / 雜貨', time: '08:00–19:00' },
@@ -659,6 +665,7 @@
                         { id: 49, areaKey: 'irabu', type: 'shop', name: '1 LAB Hello, VACAY宮古島', desc: '販賣類型：伴手禮選物', time: '11:00–17:00', isSouvenir: true },
                         { id: 50, areaKey: 'irabu', type: 'spot', name: '17END', desc: '海灘/機場跑道景觀', time: '24小時' },
                         { id: 51, areaKey: 'irabu', type: 'spot', name: '渡口の浜', desc: '海灘', time: '24小時' },
+                        { id: 54, areaKey: 'irabu', type: 'food', name: 'New Hamaya', desc: '宮古麵', time: '09:00–20:00' },
 
                         // 來間島
                         { areaKey: 'kurima', type: 'shop', name: 'Hakoniwa KURIMA', desc: '販賣類型：T恤', time: '10:00–18:00 <span class="note">(一到五休息)</span>', isSouvenir: true },
