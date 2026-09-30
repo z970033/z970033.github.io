@@ -61,14 +61,14 @@
         .main-tab-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .main-tab-button {
-            padding: 12px 28px;
-            font-size: 17px;
+            padding: 10px 22px;
+            font-size: 16px;
             font-weight: bold;
             border: 2px solid var(--primary-color);
             background-color: white;
@@ -410,6 +410,23 @@
             color: #475569;
         }
 
+        .transfer-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .transfer-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -433,7 +450,7 @@
             }
 
             .main-tab-button {
-                padding: 8px 16px;
+                padding: 8px 14px;
                 font-size: 14px;
             }
 
@@ -451,13 +468,17 @@
         <!-- 頂部標題區 -->
         <div class="header">
             <h1>🌴 2026 宮古島海島渡假指南</h1>
-            <p>機票資訊 ‧ 景點美食地圖 ‧ 伴手禮購物 ‧ 每日行程規劃</p>
+            <p>機票資訊 ‧ 機場接送 ‧ 景點美食地圖 ‧ 伴手禮購物 ‧ 每日行程規劃</p>
         </div>
 
         <!-- 第一層：主要 Tab 選擇器 -->
         <div class="main-tab-container">
             <button class="main-tab-button" :class="{active: mainTab === 'flight'}" @click="mainTab = 'flight'">
                 ✈️ 機票資訊
+            </button>
+
+            <button class="main-tab-button" :class="{active: mainTab === 'transfer'}" @click="mainTab = 'transfer'">
+                🚗 機場接送
             </button>
             <button class="main-tab-button" :class="{active: mainTab === 'spots'}" @click="mainTab = 'spots'">
                 📍 景點美食與伴手禮
@@ -479,6 +500,32 @@
                     <h2>✈️ 回程：星宇航空 JX309</h2>
                     <p>📅 <strong>日期：</strong>2026-10-19 (一)</p>
                     <p>⏰ <strong>時間：</strong>10:40 下地島機場 (SHI) ✈️ 11:00 臺中國際機場 (RMQ) T2</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 新增分類：機場接送 ==================== -->
+        <div v-show="mainTab === 'transfer'">
+            <div class="area-section">
+                <div class="flight-card">
+                    <h2>🛫 10/12 送機服務（前往臺中國際機場）</h2>
+                    <p>📅 <strong>預約時間：</strong>2026-10-12 (一) 04:30</p>
+                    <p>💰 <strong>應付金額：</strong>$900</p>
+                    <p style="margin-top: 10px;">
+                        <a href="https://s.gospeed.tw/s/aabaxv" target="_blank" rel="noopener" class="transfer-btn">
+                            🔍 點此查詢送機訂單
+                        </a>
+                    </p>
+                </div>
+                <div class="flight-card" style="margin-bottom: 0;">
+                    <h2>🛬 10/19 接機服務（臺中國際機場接回）</h2>
+                    <p>📅 <strong>預約時間：</strong>2026-10-19 (一) 11:00</p>
+                    <p>💰 <strong>應付金額：</strong>$1,000</p>
+                    <p style="margin-top: 10px;">
+                        <a href="https://s.gospeed.tw/s/aabaxw" target="_blank" rel="noopener" class="transfer-btn">
+                            🔍 點此查詢接機訂單
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -580,7 +627,7 @@
         createApp({
             data() {
                 return {
-                    mainTab: 'itinerary', // 'flight' | 'spots' | 'itinerary'
+                    mainTab: 'itinerary', // 'flight' | 'transfer' | 'spots' | 'itinerary'
                     spotSubTab: 'all', // 'all', 'city', 'north', 'south', 'irabu', 'kurima', 'souvenir'
                     itinerarySubTab: 'all', // 'all' 或 數字 1~8
 
