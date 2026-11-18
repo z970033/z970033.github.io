@@ -210,17 +210,23 @@
             overflow: hidden;
             border: 1px solid var(--bd);
             box-shadow: 0 8px 24px rgba(90, 60, 40, .07);
-            margin-bottom: 22px
+            margin-bottom: 22px;
+            padding: 22px 22px 0;
+            /* 網頁版：讓圖片上方與左右留空 */
         }
 
-        .cover svg {
+        .cover img {
             display: block;
             width: 100%;
-            height: auto
+            height: auto;
+            object-fit: contain;
+            background: var(--card);
+            border-radius: 18px;
+            /* 搭配外框的圓角 */
         }
 
         .cover-text {
-            padding: 26px 26px 30px
+            padding: 24px 6px 30px
         }
 
         .cover-text .eyebrow {
@@ -276,16 +282,20 @@
             .cover {
                 display: flex;
                 flex-direction: column;
-                background: var(--card)
+                background: var(--card);
+                padding: 16mm 16mm 0;
+                /* 列印/PDF版：上方與左右留出 16mm 邊距 */
             }
 
-            .cover svg {
+            .cover img {
                 flex: 1;
-                min-height: 0
+                min-height: 0;
+                object-fit: contain;
+                border-radius: 16px;
             }
 
             .cover-text {
-                padding: 14mm 16mm 18mm
+                padding: 12mm 2mm 18mm
             }
 
             .cover-text h1 {
@@ -381,7 +391,7 @@
             {
                 t: '第六天 (10/17) 六', h: H2, items: [
                     ['hotel', H2],
-                    ['act', 'UNI BEACH 空拍機寫真與遊船體驗', '約 2 小時', '⚠️ 預約時間前 15 分鐘抵達久松漁港集合！💰 15,000日圓（現場僅接受現金）', 'https://www.google.com/maps/place/24.783689,+125.262804/@24.7837169,125.2627954,20z/data=!4m4!3m3!8m2!3d24.7836887!4d125.2628039'],
+                    ['act', 'UNI BEACH 空拍機寫真與遊船體驗', '約 2 小時', '', 'https://www.google.com/maps/place/24.783689,+125.262804/@24.7837169,125.2627954,20z/data=!4m4!3m3!8m2!3d24.7836887!4d125.2628039'],
                     ['food', 'ensemble coffee miyakoisland', '', '午餐(優格碗)'],
                     ['act', '八重干瀨搭船浮潛體驗', '8:30 / 11:30（2個半小時）'],
                     ['food', 'Restaurant Qui.Town', '19:30 預約', '✅ 已於 Tabelog 預訂（晚餐）'],
@@ -406,22 +416,7 @@
             }
         ];
         const q = s => encodeURIComponent(s);
-        document.getElementById('app').innerHTML = `<div class="cover"><svg viewBox="0 0 210 190" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e3cf"/><stop offset="1" stop-color="#fbf1e4"/></linearGradient>
-<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fc4c0"/><stop offset="1" stop-color="#2f8f93"/></linearGradient></defs>
-<rect width="210" height="190" fill="url(#sky)"/>
-<circle cx="150" cy="62" r="26" fill="#f2b88a" opacity=".55"/><circle cx="150" cy="62" r="17" fill="#f0a56e"/>
-<path d="M0 98 Q50 92 105 98 T210 96 V190 H0Z" fill="url(#sea)"/>
-<path d="M0 118 Q40 112 90 118 T210 116 V190 H0Z" fill="#4aa8a8" opacity=".75"/>
-<path d="M0 140 Q55 133 110 140 T210 138 V190 H0Z" fill="#8fd0c8" opacity=".6"/>
-<path d="M0 160 Q60 150 120 158 T210 154 V190 H0Z" fill="#efdcc2"/>
-<path d="M0 176 Q70 166 130 174 T210 170 V190 H0Z" fill="#e5cfb0"/>
-<g fill="none" stroke="#fff" stroke-width=".8" opacity=".7" stroke-linecap="round"><path d="M20 108q8-3 16 0"/><path d="M70 125q8-3 16 0"/><path d="M140 112q8-3 16 0"/><path d="M165 132q8-3 16 0"/></g>
-<g fill="#7a5640"><path d="M38 170 Q41 130 36 98 L39 98 Q45 130 42 170Z"/>
-<path d="M37 99 Q22 88 10 96 Q24 90 37 99Z"/><path d="M38 99 Q30 82 14 80 Q32 80 38 99Z"/><path d="M38 99 Q44 82 58 76 Q46 86 38 99Z"/><path d="M39 99 Q56 90 68 98 Q54 94 39 99Z"/></g>
-<g fill="#5f4230"><path d="M172 172 Q174 148 170 126 L172.5 126 Q177 148 175 172Z"/>
-<path d="M171 127 Q160 119 150 125 Q161 121 171 127Z"/><path d="M171.5 127 Q166 114 154 112 Q168 112 171.5 127Z"/><path d="M172 127 Q178 115 190 112 Q180 120 172 127Z"/><path d="M172.5 127 Q184 121 194 127 Q183 125 172.5 127Z"/></g>
-</svg><div class="cover-text"><div class="eyebrow">2026 宮古島 ・ 10/12 – 10/19</div><h1>17 の 8 天 7 夜宮古島之旅</h1></div></div>`+ days.map(d => `
+        document.getElementById('app').innerHTML = `<div class="cover"><img src="https://z970033.github.io/travel/miyakojima/2026/S__33800197.jpg" alt="2026 宮古島封面"><div class="cover-text"><div class="eyebrow">2026 宮古島 ・ 10/12 – 10/19</div><h1>17 の 8 天 7 夜宮古島之旅</h1></div></div>` + days.map(d => `
 <div class="day"><div class="day-title"><span>${d.t}</span><small>${d.h}</small></div>
 <div class="timeline">${d.items.map(([ty, n, tm, nt, cm]) => `
 <div class="item"><span class="tag t-${ty}">${TN[ty]}</span>
