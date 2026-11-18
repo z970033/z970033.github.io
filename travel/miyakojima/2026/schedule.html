@@ -211,38 +211,200 @@
             border: 1px solid var(--bd);
             box-shadow: 0 8px 24px rgba(90, 60, 40, .07);
             margin-bottom: 22px;
-            padding: 22px 22px 0;
-            /* 網頁版：讓圖片上方與左右留空 */
+            padding-top: 24px;
         }
 
         .cover img {
             display: block;
-            width: 100%;
+            width: calc(100% - 48px);
+            margin: 0 auto;
             height: auto;
             object-fit: contain;
-            background: var(--card);
-            border-radius: 18px;
-            /* 搭配外框的圓角 */
+            border-radius: 16px;
+            background: #fdfbf8;
         }
 
-        .cover-text {
-            padding: 24px 6px 30px
+        .cover-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            padding: 22px 26px 16px;
+            gap: 16px;
         }
 
         .cover-text .eyebrow {
-            margin-bottom: 12px
+            margin-bottom: 8px
         }
 
         .cover-text h1 {
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 800;
             line-height: 1.25;
-            margin-bottom: 12px
+            margin-bottom: 0
         }
 
-        .cover-text p {
+        /* 社群按鈕群組 */
+        .social-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            padding: 9px 15px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .social-btn:hover {
+            opacity: 0.9;
+        }
+
+        .social-btn svg {
+            width: 17px;
+            height: 17px;
+            fill: white;
+        }
+
+        .line-btn {
+            background: #06C755;
+            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.25);
+        }
+
+        .ig-btn {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25);
+        }
+
+        /* ===== e心通 9折推廣橫幅（比照其他項目色調） ===== */
+        .esim-wrap {
+            padding: 0 26px 26px;
+        }
+
+        .esim-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 20px;
+            padding: 14px 18px;
+            text-decoration: none;
+            color: var(--ink);
+            box-shadow: 0 4px 12px rgba(90, 60, 40, .04);
+            transition: transform 0.15s, border-color 0.15s;
+        }
+
+        .esim-banner:hover {
+            transform: translateY(-2px);
+            border-color: var(--brown);
+        }
+
+        .esim-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .esim-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--sand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .esim-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--brown);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .esim-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .esim-brand {
             font-size: 15px;
-            color: var(--mut)
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .esim-badge {
+            background: var(--sand);
+            color: var(--brown);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.02em;
+        }
+
+        .esim-sub {
+            font-size: 12px;
+            color: var(--mut);
+            font-weight: 500;
+        }
+
+        .esim-code {
+            background: var(--bg);
+            color: var(--brown);
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--bd);
+        }
+
+        .esim-cta {
+            background: var(--brown);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 999px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: opacity 0.2s;
+        }
+
+        .esim-banner:hover .esim-cta {
+            opacity: 0.9;
+        }
+
+        @media(max-width:600px) {
+            .esim-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .esim-cta {
+                width: 100%;
+                text-align: center;
+            }
         }
 
         @page {
@@ -283,23 +445,28 @@
                 display: flex;
                 flex-direction: column;
                 background: var(--card);
-                padding: 16mm 16mm 0;
-                /* 列印/PDF版：上方與左右留出 16mm 邊距 */
+                padding-top: 14mm;
             }
 
             .cover img {
                 flex: 1;
                 min-height: 0;
+                width: calc(100% - 32mm);
+                margin: 0 auto;
                 object-fit: contain;
                 border-radius: 16px;
             }
 
-            .cover-text {
-                padding: 12mm 2mm 18mm
+            .cover-content {
+                padding: 10mm 16mm 6mm;
             }
 
             .cover-text h1 {
-                font-size: 40px
+                font-size: 36px
+            }
+
+            .esim-wrap {
+                padding: 0 16mm 14mm;
             }
 
             .day {
@@ -391,7 +558,7 @@
             {
                 t: '第六天 (10/17) 六', h: H2, items: [
                     ['hotel', H2],
-                    ['act', 'UNI BEACH 空拍機寫真與遊船體驗', '約 2 小時', '', 'https://www.google.com/maps/place/24.783689,+125.262804/@24.7837169,125.2627954,20z/data=!4m4!3m3!8m2!3d24.7836887!4d125.2628039'],
+                    ['act', 'UNI BEACH 空拍機寫真與遊船體驗', '約 2 小時', '⚠️ 預約時間前 15 分鐘抵達久松漁港集合！💰 15,000日圓（現場僅接受現金）', 'https://www.google.com/maps/place/24.783689,+125.262804/@24.7837169,125.2627954,20z/data=!4m4!3m3!8m2!3d24.7836887!4d125.2628039'],
                     ['food', 'ensemble coffee miyakoisland', '', '午餐(優格碗)'],
                     ['act', '八重干瀨搭船浮潛體驗', '8:30 / 11:30（2個半小時）'],
                     ['food', 'Restaurant Qui.Town', '19:30 預約', '✅ 已於 Tabelog 預訂（晚餐）'],
@@ -416,7 +583,55 @@
             }
         ];
         const q = s => encodeURIComponent(s);
-        document.getElementById('app').innerHTML = `<div class="cover"><img src="https://z970033.github.io/travel/miyakojima/2026/S__33800197.jpg" alt="2026 宮古島封面"><div class="cover-text"><div class="eyebrow">2026 宮古島 ・ 10/12 – 10/19</div><h1>17 の 8 天 7 夜宮古島之旅</h1></div></div>` + days.map(d => `
+
+        // 聯絡連結設定
+        const lineLink = "https://lin.ee/ryBblkA";
+        const igLink = "https://www.instagram.com/yi_chi0119?hvrq=YmRmYjFmdjlycjJj&utm_source=qr";
+        const esimLink = "https://esimconnect.com.tw/#/access/esimbuy?referencecode=yi_chi0119";
+
+        document.getElementById('app').innerHTML = `
+        <div class="cover">
+            <img src="https://z970033.github.io/travel/miyakojima/2026/S__33800197.jpg" alt="2026 宮古島封面">
+            <div class="cover-content">
+                <div class="cover-text">
+                    <div class="eyebrow">2026 宮古島 ・ 10/12 – 10/19</div>
+                    <h1>17 の 8 天 7 夜宮古島之旅</h1>
+                </div>
+                <div class="social-group">
+                    <a class="social-btn line-btn" href="${lineLink}" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.41-.09-.544-.25l-2.005-2.42v2.044c0 .345-.283.629-.63.629-.345 0-.627-.284-.627-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.035.198-.035.212 0 .411.09.545.251l2.003 2.419V8.108c0-.345.282-.63.628-.63.347 0 .63.285.63.63v4.771zm-5.741 0c0 .345-.282.629-.627.629-.349 0-.63-.284-.63-.629V8.108c0-.345.281-.63.63-.63.345 0 .627.285.627.63v4.771zm-2.466.629H6.183c-.345 0-.627-.284-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .63.285.63.63v4.141h1.125c.349 0 .63.285.63.63 0 .344-.281.629-.63.629M21.054 4.542C18.665 2.57 15.485 1.5 12 1.5 5.649 1.5.5 6.136.5 11.89c0 3.082 1.408 5.86 3.631 7.794.195.168.315.418.315.681l-.034 2.214c-.015.962 1.042 1.562 1.849 1.053l2.457-1.56c.191-.122.417-.174.639-.144C10.026 21.996 11.002 22.1 12 22.1c6.351 0 11.5-4.636 11.5-10.39 0-2.39-.817-4.632-2.446-6.428"/></svg>
+                        LINE
+                    </a>
+                    <a class="social-btn ig-btn" href="${igLink}" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+            <div class="esim-wrap">
+                <a class="esim-banner" href="${esimLink}" target="_blank" rel="noopener">
+                    <div class="esim-left">
+                        <div class="esim-icon">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                                <path d="M9 10h6v6H9z"></path>
+                                <path d="M12 6h.01"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="esim-title-row">
+                                <span class="esim-brand">e心通 eSIM</span>
+                                <span class="esim-badge">🔥 專屬 9 折</span>
+                            </div>
+                            <div class="esim-sub">
+                                結帳自動套用推廣碼 <span class="esim-code">yi_chi0119</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="esim-cta">立即選購 ➔</div>
+                </a>
+            </div>
+        </div>`+ days.map(d => `
 <div class="day"><div class="day-title"><span>${d.t}</span><small>${d.h}</small></div>
 <div class="timeline">${d.items.map(([ty, n, tm, nt, cm]) => `
 <div class="item"><span class="tag t-${ty}">${TN[ty]}</span>
