@@ -209,16 +209,13 @@
             border-radius: 26px;
             overflow: hidden;
             border: 1px solid var(--bd);
-            box-shadow: 0 8px 24px rgba(90, 60, 40, .07);
             margin-bottom: 22px;
             padding-top: 20px;
-            /* 確保上方有呼吸空間 */
         }
 
         .cover img {
             display: block;
             width: calc(100% - 32px);
-            /* 左右兩側完美留白 */
             margin: 0 auto;
             height: auto;
             object-fit: contain;
@@ -229,28 +226,28 @@
         .cover-content {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
             flex-wrap: wrap;
-            padding: 22px 26px 16px;
+            padding: 20px 26px 14px;
             gap: 16px;
         }
 
         .cover-text .eyebrow {
-            margin-bottom: 8px
+            margin-bottom: 6px
         }
 
         .cover-text h1 {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 800;
             line-height: 1.25;
             margin-bottom: 0
         }
 
-        /* 社群按鈕群組 */
+        /* ===== 社群按鈕（代表色 + 無陰影，杜絕色塊） ===== */
         .social-group {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
@@ -258,39 +255,53 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: white;
-            padding: 9px 15px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            padding: 8px 14px;
             border-radius: 999px;
             text-decoration: none;
             font-weight: 700;
             font-size: 13px;
             white-space: nowrap;
-            transition: opacity 0.2s, transform 0.1s;
-        }
-
-        .social-btn:hover {
-            opacity: 0.9;
+            transition: background 0.15s;
         }
 
         .social-btn svg {
-            width: 17px;
-            height: 17px;
-            fill: white;
+            width: 16px;
+            height: 16px;
         }
 
+        /* LINE 代表色 */
         .line-btn {
-            background: #06C755;
-            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.25);
+            color: #06C755;
         }
 
+        .line-btn svg {
+            fill: #06C755;
+        }
+
+        .line-btn:hover {
+            background: #f0fbf4;
+            border-color: #06C755;
+        }
+
+        /* IG 代表色 */
         .ig-btn {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25);
+            color: #E1306C;
+        }
+
+        .ig-btn svg {
+            fill: #E1306C;
+        }
+
+        .ig-btn:hover {
+            background: #fef2f6;
+            border-color: #E1306C;
         }
 
         /* ===== e心通 9折推廣橫幅 ===== */
         .esim-wrap {
-            padding: 0 26px 26px;
+            padding: 0 26px 24px;
         }
 
         .esim-banner {
@@ -301,15 +312,12 @@
             background: #fff;
             border: 1px solid var(--bd);
             border-radius: 20px;
-            padding: 14px 18px;
+            padding: 12px 18px;
             text-decoration: none;
             color: var(--ink);
-            box-shadow: 0 4px 12px rgba(90, 60, 40, .04);
-            transition: transform 0.15s, border-color 0.15s;
         }
 
         .esim-banner:hover {
-            transform: translateY(-2px);
             border-color: var(--brown);
         }
 
@@ -320,24 +328,15 @@
         }
 
         .esim-icon {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
             background: var(--sand);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-        }
-
-        .esim-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: var(--brown);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            font-size: 20px;
         }
 
         .esim-title-row {
@@ -345,11 +344,11 @@
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .esim-brand {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             color: var(--ink);
         }
@@ -361,7 +360,6 @@
             font-weight: 700;
             padding: 2px 8px;
             border-radius: 999px;
-            letter-spacing: 0.02em;
         }
 
         .esim-sub {
@@ -375,8 +373,8 @@
             color: var(--brown);
             font-family: monospace;
             font-weight: 700;
-            font-size: 12px;
-            padding: 1px 6px;
+            font-size: 11px;
+            padding: 1px 5px;
             border-radius: 4px;
             border: 1px solid var(--bd);
         }
@@ -386,18 +384,28 @@
             color: #fff;
             font-size: 12px;
             font-weight: 700;
-            padding: 8px 14px;
+            padding: 7px 14px;
             border-radius: 999px;
             white-space: nowrap;
             flex-shrink: 0;
-            transition: opacity 0.2s;
-        }
-
-        .esim-banner:hover .esim-cta {
-            opacity: 0.9;
         }
 
         @media(max-width:600px) {
+            .cover-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .social-group {
+                width: 100%;
+            }
+
+            .social-btn {
+                flex: 1;
+                justify-content: center;
+            }
+
             .esim-banner {
                 flex-direction: column;
                 align-items: flex-start;
@@ -460,15 +468,15 @@
             }
 
             .cover-content {
-                padding: 10mm 16mm 6mm;
+                padding: 8mm 16mm 4mm;
             }
 
             .cover-text h1 {
-                font-size: 36px
+                font-size: 34px
             }
 
             .esim-wrap {
-                padding: 0 16mm 14mm;
+                padding: 0 16mm 12mm;
             }
 
             .day {
@@ -613,16 +621,10 @@
             <div class="esim-wrap">
                 <a class="esim-banner" href="${esimLink}" target="_blank" rel="noopener">
                     <div class="esim-left">
-                        <div class="esim-icon">
-                            <svg viewBox="0 0 24 24">
-                                <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
-                                <path d="M9 10h6v6H9z"></path>
-                                <path d="M12 6h.01"></path>
-                            </svg>
-                        </div>
+                        <div class="esim-icon">📶</div>
                         <div>
                             <div class="esim-title-row">
-                                <span class="esim-brand">📶 e心通 eSIM</span>
+                                <span class="esim-brand">e心通 eSIM</span>
                                 <span class="esim-badge">🔥 專屬 9 折</span>
                             </div>
                             <div class="esim-sub">
